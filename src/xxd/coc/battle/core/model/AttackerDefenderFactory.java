@@ -19,6 +19,11 @@ public class AttackerDefenderFactory {
 	
 	public Attacker getAttacker(String id, int[] starConfidence) {
 		
+		return this.getAttacker(id, starConfidence, Attacker.DEFAULT_ATTACT_CHANCE);
+	}
+	
+	public Attacker getAttacker(String id, int[] starConfidence, int attackChance) {
+		
 		if (id == null || starConfidence == null) {
 			return null;
 		}
@@ -29,16 +34,27 @@ public class AttackerDefenderFactory {
 			m.put(String.valueOf(i+1), starConfidence[i]);
 		}
 		
-		return new Attacker(id, m);
+		return new Attacker(id, attackChance, m);
 	}
 	
 	public List<Attacker> getAttackers(int[][] starConfidence) {
 		if (starConfidence == null) {
-			return null;
+			throw new IllegalArgumentException("wrong input for starConfidence");
+		}
+		int[] attackChance = new int[starConfidence.length];
+		for (int i = 0; i < attackChance.length; i++) {
+			attackChance[i] = Attacker.DEFAULT_ATTACT_CHANCE;
+		}
+		return this.getAttackers(starConfidence, attackChance);
+	}
+	
+	public List<Attacker> getAttackers(int[][] starConfidence, int[] attackChance) {
+		if (starConfidence == null || attackChance == null || starConfidence.length != attackChance.length) {
+			throw new IllegalArgumentException("wrong input for starConfidence or attackChance");
 		}
 		List<Attacker> ret = new ArrayList<Attacker>();
 		for (int i = 0; i < starConfidence.length; i++) {
-			ret.add(this.getAttacker(String.valueOf(i+1), starConfidence[i]));
+			ret.add(this.getAttacker(String.valueOf(i+1), starConfidence[i], attackChance[i]));
 		}
 		
 		return ret;
@@ -51,6 +67,17 @@ public class AttackerDefenderFactory {
 		for (int i = 0; i < count; i++) {
 			String id = String.valueOf(i + 1);
 			m.put(id, new Defender(id));
+		}
+		
+		return m;
+	}
+	
+	public Map<String, Defender> getDefenders(int[] initialStars) {
+		Map<String, Defender> m = new HashMap<String, Defender>();
+		
+		for (int i = 0; i < initialStars.length; i++) {
+			String id = String.valueOf(i + 1);
+			m.put(id, new Defender(id, initialStars[i]));
 		}
 		
 		return m;

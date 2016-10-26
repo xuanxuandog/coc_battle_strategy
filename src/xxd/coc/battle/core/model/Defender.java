@@ -2,7 +2,7 @@ package xxd.coc.battle.core.model;
 
 public class Defender {
 	
-	public static final int MAX_STARS = 3;
+	public static int MAX_STARS = 3;
 	
 	private String id;
 	

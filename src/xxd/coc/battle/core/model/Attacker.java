@@ -11,7 +11,7 @@ import java.util.Set;
 
 public class Attacker implements Comparable {
 	
-	private static final int DEFAULT_ATTACT_CHANCE = 2;
+	public static final int DEFAULT_ATTACT_CHANCE = 2;
 	
 	private String id;
 	
@@ -71,14 +71,15 @@ public class Attacker implements Comparable {
 	 * @param defenderId
 	 * @return number of stars that this attacker get from the given defender id
 	 */
-	public void attack(Defender defender) {
+	public int attack(Defender defender) {
 		if (defender == null) {
-			return;
+			return 0;
 		}
 
 		this.attacked.put(defender.getId(), this.starConfidence.get(defender.getId()));
 		this.leftAttackChance--;
 
+		return this.starConfidence.get(defender.getId());
 	}
 	
 	public boolean canAttack(Defender defender) {

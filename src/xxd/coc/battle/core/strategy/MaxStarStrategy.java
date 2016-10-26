@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import java.util.Stack;
 
 import xxd.coc.battle.core.model.AttackableGroup;
 import xxd.coc.battle.core.model.Attacker;
@@ -25,6 +24,7 @@ public class MaxStarStrategy implements Strategy {
 	
 	private int maxTryCount = 1;
 	
+	private Set<String> maxStarDefenders;
 	
 	public StrategyOutput apply(StrategyInput input) {
 		List<Attacker> attackers = input.getAttackers();
@@ -49,9 +49,7 @@ public class MaxStarStrategy implements Strategy {
 		//put weak attacker before strong attacker for better performance
 		Collections.sort(attackersOnBattle);
 		
-//		for (Attacker a : attackersOnBattle) {
-//			System.out.println(a);
-//		}
+		maxStarDefenders = new HashSet<String>();
 		
 		oneRound(0, attackersOnBattle, defenders);
 		
@@ -72,8 +70,24 @@ public class MaxStarStrategy implements Strategy {
 		//iterator all attackable groups
 		for (AttackableGroup attackableGroup : attackableGroups) {
 			//System.out.println(attacker.getId() + "->" + attackableGroup.toString());
+			
+			//check whether all defenders in this group has been got max stars,
+			//if so, skip current group.
+			boolean allMaxStar = true;
 			for (String defenderId : attackableGroup.getDefenderIds()) {
-				attacker.attack(defenders.get(defenderId));
+				if (!maxStarDefenders.contains(defenderId)) {
+					allMaxStar = false;
+					break;
+				}
+			}
+			if (allMaxStar) {
+				continue;
+			}
+			
+			for (String defenderId : attackableGroup.getDefenderIds()) {
+				if (attacker.attack(defenders.get(defenderId)) >= Defender.MAX_STARS) {
+					maxStarDefenders.add(defenderId);
+				}
 			}
 			if (index < attackers.size() - 1) { //not the last attacker, let the left attackers to continue attack
 				oneRound(index + 1, attackers, defenders);
@@ -91,11 +105,10 @@ public class MaxStarStrategy implements Strategy {
 	
 	private void calculateResult(List<Attacker> attackers, Map<String, Defender> defenders) {
 		
+		maxStarDefenders.clear();
 		
 		this.tryCount++;
-		
-		
-		
+
 		Map<String, Set<String>> battleMap = new HashMap<String, Set<String>>();
 		
 		for (Defender def : defenders.values()) {
@@ -131,12 +144,13 @@ public class MaxStarStrategy implements Strategy {
 		if (output.getStarNumber() < sum) {
 			output.setStarNumber(sum);
 			output.setBattleMap(battleMap);
+			output.setInitialStars(initialStars);
 		}
 	}
 	
 	public static void main(String[] args) {
 		int [][] i = new int[10][10];
-		i[0] = new int[]{1,2,3,3,3,3,3,3,3,3};
+		i[0] = new int[]{0,2,3,3,3,3,3,3,3,3};
 		i[1] = new int[]{0,1,2,2,3,3,3,3,3,3};
 		i[2] = new int[]{0,0,1,1,2,3,3,3,3,3};
 		i[3] = new int[]{0,0,0,2,3,3,3,3,3,3};
@@ -151,9 +165,8 @@ public class MaxStarStrategy implements Strategy {
 		
 		StrategyInput input = new StrategyInput();
 		input.setTargetStars(26);
-		input.setAttackers(AttackerDefenderFactory.getInstance()
-				.getAttackers(i));
-		input.setDefenders(AttackerDefenderFactory.getInstance().getDefenders(i[0].length));
+		input.setAttackers(AttackerDefenderFactory.getInstance().getAttackers(i, new int[]{1,2,2,2,2,2,2,2,2,2}));
+		input.setDefenders(AttackerDefenderFactory.getInstance().getDefenders(new int[]{1,0,0,0,0,0,0,0,0,0}));
 		
 		Strategy strategy = new MaxStarStrategy();
 		
