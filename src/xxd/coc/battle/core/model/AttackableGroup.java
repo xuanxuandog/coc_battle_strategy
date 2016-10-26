@@ -2,11 +2,17 @@ package xxd.coc.battle.core.model;
 
 import java.util.Map;
 
+/**
+ * A group of defenders that certain attacker can get star(s) from
+ * @author xualu
+ *
+ */
 public class AttackableGroup implements Comparable{
 
-	//number of stars that attacker can get from this attackable group
+	//total stars that attacker can get from this attackable group
 	private int stars = 0;
 	
+	//all the defender ids in this attackable group
 	private String[] defenderIds;
 	
 	public AttackableGroup(int stars, String[] defenderIds) {
@@ -19,6 +25,10 @@ public class AttackableGroup implements Comparable{
 		this(0, defenderIds);
 	}
 	
+	/**
+	 * calculate the total stars that certain attacker get from this group of defenders
+	 * @param starConfidence the mapping of defender->star that certain attacker can get
+	 */
 	public void calculateStars(Map<String, Integer> starConfidence) {
 	    if (starConfidence == null || this.defenderIds == null) {
 	    	return;

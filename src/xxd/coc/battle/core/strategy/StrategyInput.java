@@ -8,6 +8,9 @@ import xxd.coc.battle.core.model.Defender;
 
 public class StrategyInput {
 
+	//the target number of stars that customer want to get,
+	//if not set, it will be equal to the max number of stars
+	//which is the number of defenders * the max stars(by default is 3) of a single defender
 	private int targetStars = 0;
 	
 	private List<Attacker> attackers;

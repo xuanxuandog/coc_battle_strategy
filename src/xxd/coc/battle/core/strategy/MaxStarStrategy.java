@@ -18,19 +18,19 @@ public class MaxStarStrategy implements Strategy {
 
 	private StrategyOutput output = null;
 	
-	private int maxStars = 0;
+	private int targetStars = 0;
 	
-	private int tryCount = 0;
-	
-	private int maxTryCount = 1;
-	
+	//set of defenders that has already been get max number of stars
+	//so that in one try round, later attackers don't need to try 
+	//attackable groups in which all defenders have been got max number of stars,
+	//this is for improving performance.
 	private Set<String> maxStarDefenders;
 	
 	public StrategyOutput apply(StrategyInput input) {
 		List<Attacker> attackers = input.getAttackers();
 		Map<String, Defender> defenders = input.getDefenders();
 		
-		this.maxStars = input.getTargetStars();
+		this.targetStars = input.getTargetStars();
 		
 		//attackers that will join the battle(attackers that has at least one attackable defender)
 		List<Attacker> attackersOnBattle = new ArrayList<Attacker>();
@@ -40,10 +40,6 @@ public class MaxStarStrategy implements Strategy {
 			if (attacker.getAttackableGroups() != null && attacker.getAttackableGroups().size() > 0) {
 				attackersOnBattle.add(attacker);
 			}
-			//System.out.println("done:" + attacker.getAttackableGroups().size() + ", details:" + attacker.getAttackableGroups().toString());
-			if (attacker.getAttackableGroups().size() > 0) {
-			    this.maxTryCount *= attacker.getAttackableGroups().size();
-			}
 		}
 		
 		//put weak attacker before strong attacker for better performance
@@ -51,28 +47,35 @@ public class MaxStarStrategy implements Strategy {
 		
 		maxStarDefenders = new HashSet<String>();
 		
+		//recursively list all the situations and return if the one try round meet the target number of stars
 		oneRound(0, attackersOnBattle, defenders);
 		
 		return this.output;
 	}
 	
 	
-
+	/**
+	 * 
+	 * @param index the index of attackers list, from 0 to the size of attacker list minus 1
+	 * @param attackers
+	 * @param defenders
+	 */
 	private void oneRound(int index, List<Attacker> attackers, Map<String, Defender> defenders) {
 		
-		if (this.output != null && this.output.getStarNumber() >= this.maxStars) {
+		//target meet, return the output
+		if (this.output != null && this.output.getStarNumber() >= this.targetStars) {
 			return;
 		}
 		
+		//get current attacker in this try round
 		Attacker attacker = attackers.get(index);
 		List<AttackableGroup> attackableGroups = attacker.getAttackableGroups();
 		
-		//iterator all attackable groups
+		//iterator all attackable groups of this attacker
 		for (AttackableGroup attackableGroup : attackableGroups) {
-			//System.out.println(attacker.getId() + "->" + attackableGroup.toString());
 			
 			//check whether all defenders in this group has been got max stars,
-			//if so, skip current group.
+			//if so, skip current group to improve performance
 			boolean allMaxStar = true;
 			for (String defenderId : attackableGroup.getDefenderIds()) {
 				if (!maxStarDefenders.contains(defenderId)) {
@@ -84,19 +87,24 @@ public class MaxStarStrategy implements Strategy {
 				continue;
 			}
 			
+			//attack each defender in this attackable group
 			for (String defenderId : attackableGroup.getDefenderIds()) {
 				if (attacker.attack(defenders.get(defenderId)) >= Defender.MAX_STARS) {
+					//record defender when it has been got max stars
 					maxStarDefenders.add(defenderId);
 				}
 			}
-			if (index < attackers.size() - 1) { //not the last attacker, let the left attackers to continue attack
+			
+			if (index < attackers.size() - 1) { //not the last attacker, recursively let the later attackers to continue attack their attackable groups
 				oneRound(index + 1, attackers, defenders);
 			} else { //this is the last attacker, need calculate the final result and compare to current max stars
 				this.calculateResult(attackers, defenders);
-				if (this.output != null && this.output.getStarNumber() >= this.maxStars) {
+				//meet the target, return the output
+				if (this.output != null && this.output.getStarNumber() >= this.targetStars) {
 					return;
 				}
 			}
+			//backtracking and reset the attacker for next try round 
 			attacker.reset();
 		}
 		
@@ -105,16 +113,17 @@ public class MaxStarStrategy implements Strategy {
 	
 	private void calculateResult(List<Attacker> attackers, Map<String, Defender> defenders) {
 		
+		//need clear the set for next new try round
 		maxStarDefenders.clear();
 		
-		this.tryCount++;
-
 		Map<String, Set<String>> battleMap = new HashMap<String, Set<String>>();
 		
+		//reset all defenders for next new try round
 		for (Defender def : defenders.values()) {
 			def.reset();
 		}
 		
+		//building the battle map according to the attack history of each attacker
 		for (Attacker attacker : attackers) {
 			Map<String, Integer> attacked = attacker.getAttacked();
 			
@@ -129,6 +138,8 @@ public class MaxStarStrategy implements Strategy {
 				battleMap.put(attacker.getId(), defenderIds);
 			}
 		}
+		
+		//calculate the total number of stars and the increased stars based on initial number of stars(if it's not 0)
 		int sum = 0;
 		int initialStars = 0;
 		for (Defender def : defenders.values()) {
@@ -139,8 +150,8 @@ public class MaxStarStrategy implements Strategy {
 			this.output = new StrategyOutput();
 		} 
 		
-		System.out.println("try " + tryCount + "/" + this.maxTryCount + "(" + tryCount * 100 / maxTryCount + "%), result:" + sum + "/" + this.maxStars);
-		
+		//if current round's result is better than the max result so far, replace it
+		//otherwise, do nothing and try next round
 		if (output.getStarNumber() < sum) {
 			output.setStarNumber(sum);
 			output.setBattleMap(battleMap);

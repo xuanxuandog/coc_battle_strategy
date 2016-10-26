@@ -2,12 +2,19 @@ package xxd.coc.battle.core.model;
 
 public class Defender {
 	
+	/*
+	 * default max stars that attacker can get from each defender
+	 */
 	public static int MAX_STARS = 3;
 	
+	//id of the defender
 	private String id;
 	
+	//the initial stars that this defender lost from certain attacker(s)
+	//by default, it should be 0
 	private int initialStars;
 	
+	//number of stars that certain attacker(s) has got from this defender
 	private int completedStars;
 	
 	public Defender(String id) {
@@ -22,8 +29,12 @@ public class Defender {
 		this.initialStars = initialStars;
 	}
 	
-	
+	/**
+	 * 
+	 * @param numberOfStars actual number of stars that some attacker get from this defender
+	 */
 	public void attacked(int numberOfStars) {
+		//only need update when the actual number of stars is larger than previous completed stars
 		if (this.completedStars < numberOfStars) {
 			this.completedStars = numberOfStars;
 		}
@@ -38,6 +49,7 @@ public class Defender {
 	}
 
 	public int getCompletedStars() {
+		//if number of completed stars is less than initial number of stars, return the initial value.
 		return this.completedStars > this.initialStars ? this.completedStars : this.initialStars;
 	}
 	

@@ -7,23 +7,31 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 public class Attacker implements Comparable {
 	
-	public static final int DEFAULT_ATTACT_CHANCE = 2;
+	//the default attack chance that every attacker has in the begining
+	public static int DEFAULT_ATTACT_CHANCE = 2;
 	
+	//attacker id
 	private String id;
 	
+	//initial attack chance of this attacker
 	private int attackChance = 2;
 	
+	//left attack chance of this attacker
 	private int leftAttackChance;
 	
 	//total stars that this attacker could get from all defenders regardless of attack chance,
-	//this is just to relect how strong this attacker is
+	//this is just to tell how strong this attacker is
 	private int totalStars = 0;
 	
 	
+	//list of all groups of defenders that this attacker can get star from,
+	//it's a list of combination of defenders among all defenders,
+	//in each group, the number of defenders equals the left attack chance of this attacker
 	private List<AttackableGroup> attackableGroups = null;
 	
 	/*
@@ -55,9 +63,15 @@ public class Attacker implements Comparable {
 		this.attacked = new HashMap<String, Integer>();
 		this.leftAttackChance = this.attackChance;
 		
+		//total stars can be calculated at the beginning according to attacker's confidence
 		if (this.starConfidence != null) {
-			for (int star : this.starConfidence.values()) {
-				this.totalStars += star;
+			for (Entry<String, Integer> entry : starConfidence.entrySet()) {
+				if (entry.getValue() > Defender.MAX_STARS) {
+					//attacker's confidence can not exceed the max number of star that each defender has
+					this.starConfidence.put(entry.getKey(), Defender.MAX_STARS);
+				}
+				//calculate total stars
+				this.totalStars += entry.getValue();
 			}
 		}
 	}
@@ -82,10 +96,20 @@ public class Attacker implements Comparable {
 		return this.starConfidence.get(defender.getId());
 	}
 	
+	/*
+	 * check whether this attacker can attack given defender
+	 */
 	public boolean canAttack(Defender defender) {
+		/*
+		 * need match 3 condition:
+		 * 1. left attack chance > 0
+		 * 2. the given defender has not been attacked by this attacker already
+		 * 3. this attacker can get at least 1 star from the given defender
+		 */
 		return this.leftAttackChance > 0 && !this.attacked.containsKey(defender.getId())
 				&& this.starConfidence.get(defender.getId()) > 0;
 	}
+	
 	
 	public void reset() {
 		this.leftAttackChance = this.attackChance;
@@ -119,10 +143,18 @@ public class Attacker implements Comparable {
 		return sb.toString();
 	}
 	
+	/**
+	 * based on all given defenders and the confidence map of this attacker,
+	 * also the left attack chance of this attacker
+	 * calculate the list of combination of defenders that this attacker can attack
+	 * @param defenders
+	 */
 	public void calculateAttackableGroups(Collection<Defender> defenders) {
 		if (defenders == null) {
 			return;
 		}
+		
+		//first get all the defenders that this attacker can attack
 		List<String> attackableDefenderIds = new ArrayList<String>();
 		for (Defender defender : defenders) {
 			if (this.canAttack(defender)) {
@@ -135,25 +167,28 @@ public class Attacker implements Comparable {
 			return;
 		}
 		
-		//get the attackable groups from the attackable defenders based on left attack chances
 		this.attackableGroups = new ArrayList<AttackableGroup>();
 		
 		
 		if (attackableDefenderIds.size() <= this.leftAttackChance) {
-			//number of attackable defenders is less than left attack chance, so only has one possible group
+			//number of attackable defenders is less than left attack chance, so only has one possible combination
 			this.attackableGroups.add(new AttackableGroup(attackableDefenderIds.toArray(new String[attackableDefenderIds.size()])));
 		} else {
+			//recursively calculate the combination
 			this.calculateAttackableGroups(attackableDefenderIds, 0, new HashSet<String>());	
 		}
 		
+		//sort the attackable group by total stars of each group, 
+		//order the list by putting the group with most stars at head,
+		//this is for performance in later strategy quickly find the battle mapping with target star number
 		for (AttackableGroup attackableGroup : this.attackableGroups) {
 			attackableGroup.calculateStars(this.starConfidence);
 		}
-		
 		Collections.sort(this.attackableGroups);
 	}
 	
 	private void calculateAttackableGroups(List<String> all, int index, Set<String> tmp) {
+		
 		for (int i = index; i < all.size(); i++) {
 			tmp.add(all.get(i));
 			if (tmp.size() == this.leftAttackChance) {
