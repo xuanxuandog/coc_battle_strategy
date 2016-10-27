@@ -19,8 +19,8 @@ import xxd.coc.battle.core.model.Attacker;
 @RequestMapping("/room")
 public class RoomController {
 	
-	@RequestMapping(method = RequestMethod.GET)
-    public @ResponseBody ResponseEntity<String> room(HttpServletRequest req) {
+	@RequestMapping(method = RequestMethod.POST)
+    public @ResponseBody ResponseEntity<String> createRoom(HttpServletRequest req) {
 		
 		return new ResponseEntity<String>("hello12213", HttpStatus.OK);
     }
