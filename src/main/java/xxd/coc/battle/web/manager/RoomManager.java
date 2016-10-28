@@ -12,25 +12,19 @@ import xxd.coc.battle.core.model.Room;
 public interface RoomManager {
 
 	/**
-	 * create a new room with given number of defenders
+	 * create a new room with some given data in the room object,
+	 * for example: target stars, initial defenders, initial attackers
 	 * @param numberOfDefenders
 	 * @return
 	 */
-	Room createRoom(int numberOfDefenders);
-	
-	/**
-	 * create a new room with given defenders and their initial stars
-	 * @param defendersWithInitialStars
-	 * @return
-	 */
-	Room createRoom(int[] defendersWithInitialStars);
+	Room createRoom(Room room);
 	
 	/**
 	 * return a room by given room id
-	 * @param id
+	 * @param roomId
 	 * @return
 	 */
-	Room getRoom(String id);
+	Room getRoom(String roomId);
 	
 	/**
 	 * add an attacker to a room by given room id and attacker id and his/her star confidence against all defenders
@@ -42,8 +36,20 @@ public interface RoomManager {
 	Room join(String roomId, String attackerId, int[] starConfidence);
 	
 	/**
+	 * apply strategy on this room based on current target stars, defenders and attackers
+	 * @param roomId
+	 */
+	void applyStrategy(String roomId);
+	
+	/**
 	 * a callback function which will be called by a centralized RoomCleanManager periodically to
 	 * clean up rooms that are no longer in use for saving resource
 	 */
 	void cleanRooms();
+	
+	/**
+	 * get the total number of active rooms
+	 * @return
+	 */
+	int getRoomCount();
 }

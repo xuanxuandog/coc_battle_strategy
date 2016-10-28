@@ -14,8 +14,20 @@ public class RoomView implements View {
 	
 	@Override
 	public JSONObject toJSON() {
+		if (this.room == null) {
+			return new JSONObject();
+		}
 		JSONObject json = new JSONObject();
+		try {
+			json.put("id", room.getId());
+		} catch (Exception e) {
+			
+		}
 		return json;
+	}
+	
+	public String toString() {
+		return this.toJSON().toString();
 	}
 
 }

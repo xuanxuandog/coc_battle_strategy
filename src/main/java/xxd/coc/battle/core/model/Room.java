@@ -19,10 +19,18 @@ public class Room {
 	
 	private StrategyOutput output;
 	
+	public Room() {
+		this(null);
+	}
+	
 	public Room(String id) {
 		this.id = id;
 		input = new StrategyInput();
 		input.setAttackers(new ArrayList<Attacker>());
+	}
+	
+	public void setId(String id) {
+		this.id = id;
 	}
 	
 	public void joinAttacker(String id, int[] starConfidence) {
@@ -71,7 +79,7 @@ public class Room {
 		}
 	}
 	
-	public synchronized void applyStrategy() {
+	public void applyStrategy() {
 		Strategy s = new MaxStarStrategy();
 		this.output = s.apply(input);
 	}
