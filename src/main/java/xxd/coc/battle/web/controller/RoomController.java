@@ -10,10 +10,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import xxd.coc.battle.core.model.Attacker;
+import xxd.coc.battle.core.model.AttackerDefenderFactory;
 import xxd.coc.battle.core.model.Room;
-import xxd.coc.battle.web.input.RoomInput;
+import xxd.coc.battle.web.input.InputWrapper;
 import xxd.coc.battle.web.manager.RoomManagerFactory;
 import xxd.coc.battle.web.view.RoomCountView;
+import xxd.coc.battle.web.view.RoomView;
 
 @RestController
 @RequestMapping("/room")
@@ -22,36 +25,39 @@ public class RoomController {
 	private static final Logger log = Logger.getLogger(RoomController.class);
 	
 	@RequestMapping(method = RequestMethod.POST)
-    public Room createRoom(@RequestBody String body) {
+    public RoomView createRoom(@RequestBody String body) {
 		
-		RoomInput roomInput = new RoomInput(body);
+		InputWrapper InputWrapper = new InputWrapper(body);
 		Room room = new Room();
-		room.setTargetStars(roomInput.getTarget());
-		room.joinDefenders(roomInput.getDefenders());
+		if (InputWrapper.getTarget() > 0) {
+			room.setTargetStars(InputWrapper.getTarget());
+		}
+		room.joinDefenders(InputWrapper.getDefenders());
 		room = RoomManagerFactory.getRoomManager().createRoom(room);
-		return room;
+		return new RoomView(room);
 	}
 	
-	@RequestMapping(path="_count", method = RequestMethod.GET)
+	@RequestMapping(path="count", method = RequestMethod.GET)
 	public @ResponseBody ResponseEntity<String> getRoomCount() {
 		return new ResponseEntity<String>(new RoomCountView(
 				RoomManagerFactory.getRoomManager().getRoomCount()).toString(), HttpStatus.OK);
 	}
 	
 	@RequestMapping(path="{id}", method = RequestMethod.GET)
-	public Room getRoom(@PathVariable String id) {
-		return RoomManagerFactory.getRoomManager().getRoom(id);
+	public RoomView getRoom(@PathVariable String id) {
+		return new RoomView(RoomManagerFactory.getRoomManager().getRoom(id));
 	}
 	
 	@RequestMapping(path="join/{roomId}/{attackerId}", method = RequestMethod.POST) 
-	public Room joinRoom(@PathVariable String roomId, @PathVariable String attackerId, @RequestBody String body) {
-		RoomInput roomInput = new RoomInput(body);
-		return RoomManagerFactory.getRoomManager().join(roomId, attackerId, roomInput.getStarConfidence());
+	public RoomView joinRoom(@PathVariable String roomId, @PathVariable String attackerId, @RequestBody String body) {
+		InputWrapper inputWrapper = new InputWrapper(body);
+		Attacker attacker = AttackerDefenderFactory.getInstance().getAttacker(attackerId, inputWrapper.getStarConfidence(), inputWrapper.getAttackChance());
+		return new RoomView(RoomManagerFactory.getRoomManager().join(roomId, attacker));
 	}
 	
 	@RequestMapping(path="apply/{roomId}", method = RequestMethod.GET) 
-	public Room applyStrategy(@PathVariable String roomId) {
-		return RoomManagerFactory.getRoomManager().applyStrategy(roomId);
+	public RoomView applyStrategy(@PathVariable String roomId) {
+		return new RoomView(RoomManagerFactory.getRoomManager().applyStrategy(roomId));
 	}
 	
 	@RequestMapping(path="clean", method = RequestMethod.GET)
@@ -59,6 +65,11 @@ public class RoomController {
 		RoomManagerFactory.getRoomManager().cleanRooms();
 		return new ResponseEntity<String>(new RoomCountView(
 				RoomManagerFactory.getRoomManager().getRoomCount()).toString(), HttpStatus.OK);
+	}
+	
+	@RequestMapping(path="target/{roomId}/{targetStars}", method = RequestMethod.GET)
+	public RoomView setTargetStars(@PathVariable String roomId, @PathVariable int targetStars) {
+		return new RoomView(RoomManagerFactory.getRoomManager().setTargetStars(roomId, targetStars));
 	}
 	
 }

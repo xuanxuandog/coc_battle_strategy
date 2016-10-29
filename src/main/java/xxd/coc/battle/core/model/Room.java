@@ -35,10 +35,6 @@ public class Room {
 		this.id = id;
 	}
 	
-	public void joinAttacker(String id, int[] starConfidence) {
-		this.join(AttackerDefenderFactory.getInstance().getAttacker(id, starConfidence));
-	}
-	
 	public void joinDefenders(int[] initialStars) {
 		this.input.setDefenders(AttackerDefenderFactory.getInstance().getDefenders(initialStars));
 	}
@@ -81,7 +77,7 @@ public class Room {
 		}
 	}
 	
-	public int[] getCompletedStars() {
+	public Map<String, Integer> getCompletedStars() {
 		if (this.output != null) {
 			return this.output.getCompletedStars();
 		} else {

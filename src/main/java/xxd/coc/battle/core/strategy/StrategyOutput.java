@@ -16,16 +16,16 @@ public class StrategyOutput {
 	private Map<String, Set<String>> battleMap;
 	
 	//the completed stars of each defender
-    private int[] completedStars = null;
+    private Map<String, Integer> completedStars = null;
 	
 	
 	
-	public int[] getCompletedStars() {
+	public Map<String, Integer> getCompletedStars() {
 		return completedStars;
 	}
 
 
-	public void setCompletedStars(int[] completedStars) {
+	public void setCompletedStars(Map<String, Integer> completedStars) {
 		this.completedStars = completedStars;
 	}
 

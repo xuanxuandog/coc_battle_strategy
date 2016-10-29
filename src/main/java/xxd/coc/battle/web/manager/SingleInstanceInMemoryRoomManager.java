@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import xxd.coc.battle.core.model.Attacker;
 import xxd.coc.battle.core.model.Room;
 
 /**
@@ -17,9 +18,16 @@ import xxd.coc.battle.core.model.Room;
  */
 public class SingleInstanceInMemoryRoomManager implements RoomManager {
 	
-	//private static final long ROOM_TIME_OUT = 1000 * 3600 * 6; //six hours
+	private static final long ROOM_TIME_OUT = 1000 * 3600 * 6; //six hours
+    
+	//global room id
+	private static int ROOM_ID = 1;
 	
-	private static final long ROOM_TIME_OUT = 1000 * 10;
+	private volatile Map<String, RoomInstance> rooms = null;
+	
+	public SingleInstanceInMemoryRoomManager() {
+		this.rooms = new HashMap<String, RoomInstance>(100);
+	}
 	
 	@Override
 	public Room createRoom(Room room) {
@@ -29,7 +37,7 @@ public class SingleInstanceInMemoryRoomManager implements RoomManager {
 	@Override
 	public Room getRoom(String id) {
 		// TODO Auto-generated method stub
-		if (this.rooms != null && this.rooms.containsKey(id)) {
+		if (this.rooms.containsKey(id)) {
 			return this.rooms.get(id).room;
 		} else {
 			return null;
@@ -37,8 +45,8 @@ public class SingleInstanceInMemoryRoomManager implements RoomManager {
 	}
 
 	@Override
-	public Room join(String roomId, String attackerId, int[] starConfidence) {
-		return this.threadSafeJoin(roomId, attackerId, starConfidence);
+	public Room join(String roomId, Attacker attacker) {
+		return this.threadSafeJoin(roomId, attacker);
 	}
 	
 	
@@ -55,17 +63,18 @@ public class SingleInstanceInMemoryRoomManager implements RoomManager {
 	
 	@Override
 	public int getRoomCount() {
-		// TODO Auto-generated method stub
-		if (this.rooms == null) {
-			return 0;
-		} else {
+		synchronized(this.rooms) {
 			return this.rooms.size();
 		}
+		
+	}
+	
+	@Override
+	public Room setTargetStars(String roomId, int targetStars) {
+		return this.threadSafeSetTargetStars(roomId, targetStars);
 	}
 
-	private static int ROOM_ID = 1;
 	
-	private volatile Map<String, RoomInstance> rooms = null;
 	
 	private synchronized String generateRoomId() {
 		return String.valueOf(ROOM_ID++);
@@ -81,13 +90,6 @@ public class SingleInstanceInMemoryRoomManager implements RoomManager {
 	}
 	
 	private Room threadSafeCreateRoom(Room room) {
-		if (this.rooms == null) {
-			synchronized (this) {
-				if (this.rooms == null) {
-					this.rooms = new HashMap<String, RoomInstance>(100);
-				}
-			}	
-		}
 		synchronized(this.rooms) {
 			String roomId = this.generateRoomId();
 			room.setId(roomId);
@@ -97,11 +99,11 @@ public class SingleInstanceInMemoryRoomManager implements RoomManager {
 		}
 	}
 	
-	private Room threadSafeJoin(String roomId, String attackerId, int[] starConfidence) {
+	private Room threadSafeJoin(String roomId, Attacker attacker) {
 		if (this.rooms.containsKey(roomId)) {
 			synchronized(this.rooms.get(roomId)) {
 				Room room = this.rooms.get(roomId).room;
-				room.joinAttacker(attackerId, starConfidence);
+				room.join(attacker);
 				return room;
 			}
 		}
@@ -119,21 +121,31 @@ public class SingleInstanceInMemoryRoomManager implements RoomManager {
 		return null;
 	}
 	
-	private void threadSafeCleanRooms() {
-		if (this.rooms != null) {
-			synchronized(this.rooms) {
-				List<String> toBeRemoved = new ArrayList<String>();
-				long currenttime = System.currentTimeMillis();
-				for (RoomInstance roomInstance : rooms.values()) {
-					if (currenttime - roomInstance.createdTime > ROOM_TIME_OUT) {
-						toBeRemoved.add(roomInstance.room.getId());
-					}
-				}
-				for (String id : toBeRemoved) {
-					this.rooms.remove(id);
-				}
+	private Room threadSafeSetTargetStars(String roomId, int targetStars) {
+		if (this.rooms.containsKey(roomId)) {
+			synchronized(this.rooms.get(roomId)) {
+				Room room = this.rooms.get(roomId).room;
+				room.setTargetStars(targetStars);
+				return room;
 			}
 		}
+		return null;
+	}
+	
+	private void threadSafeCleanRooms() {
+		synchronized(this.rooms) {
+			List<String> toBeRemoved = new ArrayList<String>();
+			long currenttime = System.currentTimeMillis();
+			for (RoomInstance roomInstance : rooms.values()) {
+				if (currenttime - roomInstance.createdTime > ROOM_TIME_OUT) {
+					toBeRemoved.add(roomInstance.room.getId());
+				}
+			}
+			for (String id : toBeRemoved) {
+				this.rooms.remove(id);
+			}
+		}
+		
 	}
 	
 }

@@ -1,14 +1,15 @@
 package xxd.coc.battle.web.input;
 
-import java.io.Serializable;
 import java.net.URLDecoder;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class RoomInput{
+import xxd.coc.battle.core.model.Attacker;
+
+public class InputWrapper{
 	
-	public RoomInput(String input) {
+	public InputWrapper(String input) {
 		if (input == null) return;
 		
 		try {
@@ -33,10 +34,15 @@ public class RoomInput{
 		    		}
 		    	}
 		    }
+		    if (json.has("attackChance")) {
+		    	this.attackChance = json.optInt("attackChance");
+		    }
 		} catch (Exception e) {
 			
 		}
 	}
+	
+	private int attackChance = Attacker.DEFAULT_ATTACT_CHANCE;
 	
 	private int target = 0;
 	
@@ -68,6 +74,8 @@ public class RoomInput{
 		this.starConfidence = starConfidence;
 	}
 	
-	
+	public int getAttackChance() {
+		return this.attackChance;
+	}
 	
 }

@@ -1,5 +1,6 @@
 package xxd.coc.battle.web.manager;
 
+import xxd.coc.battle.core.model.Attacker;
 import xxd.coc.battle.core.model.Room;
 
 /**
@@ -33,7 +34,7 @@ public interface RoomManager {
 	 * @param starConfidence
 	 * @return
 	 */
-	Room join(String roomId, String attackerId, int[] starConfidence);
+	Room join(String roomId, Attacker attacker);
 	
 	/**
 	 * apply strategy on this room based on current target stars, defenders and attackers
@@ -52,4 +53,6 @@ public interface RoomManager {
 	 * @return
 	 */
 	int getRoomCount();
+	
+	Room setTargetStars(String roomId, int targetStars);
 }

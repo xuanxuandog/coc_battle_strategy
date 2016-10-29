@@ -144,12 +144,12 @@ public class MaxStarStrategy implements Strategy {
 		//calculate the total number of stars and the increased stars based on initial number of stars(if it's not 0)
 		int sum = 0;
 		int initialStars = 0;
-		int[] completedStars = new int[defenders.values().size()];
+		Map<String, Integer> completedStars = new HashMap<String, Integer>();
 		int index = 0;
 		for (Defender def : defenders.values()) {
 			sum += def.getCompletedStars();
 			initialStars += def.getInitialStars();
-			completedStars[index++] = def.getCompletedStars();
+			completedStars.put(def.getId(), def.getCompletedStars());
 		}
 		if (this.output == null) {
 			this.output = new StrategyOutput();
@@ -165,31 +165,4 @@ public class MaxStarStrategy implements Strategy {
 		}
 	}
 	
-//	public static void main(String[] args) {
-//		int [][] i = new int[10][10];
-//		i[0] = new int[]{0,2,3,3,3,3,3,3,3,3};
-//		i[1] = new int[]{0,1,2,2,3,3,3,3,3,3};
-//		i[2] = new int[]{0,0,1,1,2,3,3,3,3,3};
-//		i[3] = new int[]{0,0,0,2,3,3,3,3,3,3};
-//		i[4] = new int[]{0,0,0,0,1,2,2,3,3,3};
-//		i[5] = new int[]{0,0,0,3,3,3,3,3,3,3};
-//		i[6] = new int[]{0,0,0,0,0,1,2,2,3,3};
-//		i[7] = new int[]{0,0,0,0,0,0,1,2,2,3};
-//		i[8] = new int[]{0,0,0,0,0,0,0,0,1,2};
-//		i[9] = new int[]{0,0,0,0,0,0,0,0,1,1};
-//		
-//
-//		
-//		StrategyInput input = new StrategyInput();
-//		input.setTargetStars(26);
-//		input.setAttackers(AttackerDefenderFactory.getInstance().getAttackers(i, new int[]{1,2,2,2,2,2,2,2,2,2}));
-//		input.setDefenders(AttackerDefenderFactory.getInstance().getDefenders(new int[]{1,0,0,0,0,0,0,0,0,0}));
-//		
-//		Strategy strategy = new MaxStarStrategy();
-//		
-//		StrategyOutput output = strategy.apply(input);
-//		
-//		System.out.println(output);
-//		
-//	}
 }
