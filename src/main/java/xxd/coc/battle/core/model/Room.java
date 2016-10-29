@@ -1,6 +1,8 @@
 package xxd.coc.battle.core.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -26,7 +28,7 @@ public class Room {
 	public Room(String id) {
 		this.id = id;
 		input = new StrategyInput();
-		input.setAttackers(new ArrayList<Attacker>());
+		input.setAttackers(new HashMap<String, Attacker>());
 	}
 	
 	public void setId(String id) {
@@ -42,7 +44,7 @@ public class Room {
 	}
 	
 	public void join(Attacker attacker) {
-		input.getAttackers().add(attacker);
+		input.getAttackers().put(attacker.getId(), attacker);
 	}
 	
 	public int getInitialStars() {
@@ -71,11 +73,19 @@ public class Room {
 		}
 	}
 	
-	public int getCompletedStars() {
+	public int getTotalCompletedStars() {
 		if (this.output != null) {
 			return this.output.getStarNumber();
 		} else {
 			return 0;
+		}
+	}
+	
+	public int[] getCompletedStars() {
+		if (this.output != null) {
+			return this.output.getCompletedStars();
+		} else {
+			return null;
 		}
 	}
 	
@@ -84,4 +94,19 @@ public class Room {
 		this.output = s.apply(input);
 	}
 	
+	public Map<String, Attacker> getAttackers() {
+		if (this.input != null) {
+			return this.input.getAttackers();
+		} else {
+			return null;
+		}
+	}
+	
+	public int getTargetStars() {
+		if (this.input != null) {
+			return this.input.getTargetStars();
+		} else {
+			return 0;
+		}
+	}
 }

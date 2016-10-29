@@ -10,7 +10,7 @@ import xxd.coc.battle.core.model.Room;
  */
 
 public interface RoomManager {
-
+	
 	/**
 	 * create a new room with some given data in the room object,
 	 * for example: target stars, initial defenders, initial attackers
@@ -39,7 +39,7 @@ public interface RoomManager {
 	 * apply strategy on this room based on current target stars, defenders and attackers
 	 * @param roomId
 	 */
-	void applyStrategy(String roomId);
+	Room applyStrategy(String roomId);
 	
 	/**
 	 * a callback function which will be called by a centralized RoomCleanManager periodically to

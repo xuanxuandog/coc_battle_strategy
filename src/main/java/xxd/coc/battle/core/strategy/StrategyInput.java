@@ -13,15 +13,15 @@ public class StrategyInput {
 	//which is the number of defenders * the max stars(by default is 3) of a single defender
 	private int targetStars = 0;
 	
-	private List<Attacker> attackers;
+	private Map<String, Attacker> attackers;
 	
 	private Map<String, Defender> defenders;
 
-	public List<Attacker> getAttackers() {
+	public Map<String, Attacker> getAttackers() {
 		return attackers;
 	}
 
-	public void setAttackers(List<Attacker> attackers) {
+	public void setAttackers(Map<String, Attacker> attackers) {
 		this.attackers = attackers;
 	}
 

@@ -199,6 +199,12 @@ public class Attacker implements Comparable {
 			tmp.remove(all.get(i));
 		}
 	}
+	
+	
+
+	public Map<String, Integer> getStarConfidence() {
+		return starConfidence;
+	}
 
 	@Override
 	public int compareTo(Object o) {

@@ -3,7 +3,6 @@ package xxd.coc.battle.web.controller;
 import org.apache.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,4 +42,23 @@ public class RoomController {
 	public Room getRoom(@PathVariable String id) {
 		return RoomManagerFactory.getRoomManager().getRoom(id);
 	}
+	
+	@RequestMapping(path="join/{roomId}/{attackerId}", method = RequestMethod.POST) 
+	public Room joinRoom(@PathVariable String roomId, @PathVariable String attackerId, @RequestBody String body) {
+		RoomInput roomInput = new RoomInput(body);
+		return RoomManagerFactory.getRoomManager().join(roomId, attackerId, roomInput.getStarConfidence());
+	}
+	
+	@RequestMapping(path="apply/{roomId}", method = RequestMethod.GET) 
+	public Room applyStrategy(@PathVariable String roomId) {
+		return RoomManagerFactory.getRoomManager().applyStrategy(roomId);
+	}
+	
+	@RequestMapping(path="clean", method = RequestMethod.GET)
+	public @ResponseBody ResponseEntity<String> cleanRooms() {
+		RoomManagerFactory.getRoomManager().cleanRooms();
+		return new ResponseEntity<String>(new RoomCountView(
+				RoomManagerFactory.getRoomManager().getRoomCount()).toString(), HttpStatus.OK);
+	}
+	
 }

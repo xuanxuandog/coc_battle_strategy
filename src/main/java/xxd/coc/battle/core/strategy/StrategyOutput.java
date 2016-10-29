@@ -15,6 +15,21 @@ public class StrategyOutput {
 	//the final battle map that this strategy generate to customer
 	private Map<String, Set<String>> battleMap;
 	
+	//the completed stars of each defender
+    private int[] completedStars = null;
+	
+	
+	
+	public int[] getCompletedStars() {
+		return completedStars;
+	}
+
+
+	public void setCompletedStars(int[] completedStars) {
+		this.completedStars = completedStars;
+	}
+
+	
 	public Map<String, Set<String>> getBattleMap() {
 		return battleMap;
 	}
@@ -40,6 +55,8 @@ public class StrategyOutput {
 	public void setBattleMap(Map<String, Set<String>> battleMap) {
 		this.battleMap = battleMap;
 	}
+	
+	
 	
 	public String toString() {
 		StringBuilder sb = new StringBuilder();

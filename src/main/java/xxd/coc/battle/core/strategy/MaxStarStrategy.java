@@ -1,6 +1,7 @@
 package xxd.coc.battle.core.strategy;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -11,7 +12,6 @@ import java.util.Set;
 
 import xxd.coc.battle.core.model.AttackableGroup;
 import xxd.coc.battle.core.model.Attacker;
-import xxd.coc.battle.core.model.AttackerDefenderFactory;
 import xxd.coc.battle.core.model.Defender;
 
 public class MaxStarStrategy implements Strategy {
@@ -26,8 +26,10 @@ public class MaxStarStrategy implements Strategy {
 	//this is for improving performance.
 	private Set<String> maxStarDefenders;
 	
+	
+
 	public StrategyOutput apply(StrategyInput input) {
-		List<Attacker> attackers = input.getAttackers();
+		Collection<Attacker> attackers = input.getAttackers().values();
 		Map<String, Defender> defenders = input.getDefenders();
 		
 		this.targetStars = input.getTargetStars();
@@ -142,9 +144,12 @@ public class MaxStarStrategy implements Strategy {
 		//calculate the total number of stars and the increased stars based on initial number of stars(if it's not 0)
 		int sum = 0;
 		int initialStars = 0;
+		int[] completedStars = new int[defenders.values().size()];
+		int index = 0;
 		for (Defender def : defenders.values()) {
 			sum += def.getCompletedStars();
 			initialStars += def.getInitialStars();
+			completedStars[index++] = def.getCompletedStars();
 		}
 		if (this.output == null) {
 			this.output = new StrategyOutput();
@@ -156,6 +161,7 @@ public class MaxStarStrategy implements Strategy {
 			output.setStarNumber(sum);
 			output.setBattleMap(battleMap);
 			output.setInitialStars(initialStars);
+			output.setCompletedStars(completedStars);
 		}
 	}
 	
