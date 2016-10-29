@@ -10,6 +10,10 @@ public class RoomCountView implements View {
 		this.roomCount = roomCount;
 	}
 	
+	public String toString() {
+		return this.toJSON().toString();
+	}
+	
 	@Override
 	public JSONObject toJSON() {
 		JSONObject json = new JSONObject();

@@ -1,8 +1,32 @@
 package xxd.coc.battle.web.input;
 
 import java.io.Serializable;
+import java.net.URLDecoder;
 
-public class RoomInput implements Serializable{
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+public class RoomInput{
+	
+	public RoomInput(String input) {
+		if (input == null) return;
+		
+		try {
+		    input = URLDecoder.decode(input, "UTF-8");
+		    JSONObject json = new JSONObject(input);
+		    this.target = json.optInt("target");
+		    if (json.has("defenders")) {
+		    	JSONArray array = json.optJSONArray("defenders");
+		    	if (array == null) return;
+		    	this.defenders = new int[array.length()];
+		    	for (int i = 0; i < array.length(); i++) {
+		    		this.defenders[i] = array.optInt(i);
+		    	}
+		    }
+		} catch (Exception e) {
+			
+		}
+	}
 	
 	private int target = 0;
 	
