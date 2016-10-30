@@ -12,11 +12,6 @@ apply plugin: 'eclipse'
 apply plugin: 'spring-boot'
 apply plugin: 'war'
 
-jar {
-    baseName = 'gs-rest-service'
-    version =  '0.1.0'
-}
-
 war {
     baseName = 'coc'
     version =  '0.1.0'
@@ -35,5 +30,6 @@ dependencies {
     compile 'org.codehaus.jackson:jackson-mapper-asl:1.9.13'
 	compile 'org.springframework:spring-web:4.3.3.RELEASE'
     compile("org.springframework.boot:spring-boot-starter-web")
+    providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
 }
 
