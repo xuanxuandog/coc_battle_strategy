@@ -27,18 +27,52 @@ This project is to build software which is used for COC(clash of clan) players t
 > **POST** http://hostname:port/room
 
 ```
+Request payload
 {
-  "defenders":[0,0,0,..., 0],//required, the initial completed stars of each defender
+  "defenders":[0,0,0,..., 0],// required, the initial completed stars of each defender
   "target":23 // optional, the target stars that user want to achieve from all the defenders, if it's not set, the default value is 3 * the number of defenders
 }
+
+Response
+room details, please refer to later section
 ```
 
 - get a room info
 
 > **GET** http://hostname:port/room/id
 
+```
+Response
+room details, please refer to later section
+```
+
 - get count of active rooms
 
 > **GET** http://hostname:port/room/count
 
+```
+Response
+{ 
+  "count" : 1
+}
+```
+
+- response of room detail
+
+```
+{
+   "id": "1", // id of created room
+   "targetStars": 9, // target stars
+   "initialStars": 0, // initial stars that already completed
+   "battleMap": { // the main output of the strategy, which tell the clan who need attack who
+       
+   },
+   "totalCompletedStars": 0, // total completed stars from all the defenders
+   "attackers": [ //the detail information of all the registered attackers
+   
+   ],
+   "completedStars": null // the detail number of completed stars of all the defenders
+}
+
+```
 
