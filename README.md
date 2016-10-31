@@ -8,6 +8,9 @@ This project is to build software which is used for COC(clash of clan) players t
 - Each player can join a room using room id and input the number of stars that he/she can get from each defender of the other clan. In addition, each player can input the number of attack chance that he/she left(the default value is 2). If some player has already attacked some defender, the attacker should also input this information.
 - Then after all players have finished their input, the capatain can get the best strategy. (Capatain can also set a target number of stars based on all players input)
 
+# Get the project
+- git clone https://github.com/xuanxuandog/coc_battle_strategy
+
 # Build/Start Web Service
 - Start as a local application. After boot successfully, the web service can be accessed at localhost:8080
 >./gradlew bootRun
@@ -33,3 +36,9 @@ This project is to build software which is used for COC(clash of clan) players t
 - get a room info
 
 > **GET** http://hostname:port/room/id
+
+- get count of active rooms
+
+> **GET** http://hostname:port/room/count
+
+
