@@ -22,7 +22,7 @@ This project is to build software which is used for COC(clash of clan) players t
 
 # Web Service REST API
 
-- create a room
+- **create a room**
 
 > **POST** /room
 
@@ -37,7 +37,7 @@ Response
 room details, please refer to later section
 ```
 
-- get a room info
+- **get a room info**
 
 > **GET** /room/id
 
@@ -46,7 +46,7 @@ Response
 room details, please refer to later section
 ```
 
-- get count of active rooms
+- **get count of active rooms**
 
 > **GET** /room/count
 
@@ -57,7 +57,7 @@ Response
 }
 ```
 
-- update target stars
+- **update target stars**
 
 > **GET** /room/target/{roomId}/{number of target stars}
 
@@ -66,7 +66,7 @@ Response
 room details, please refer to later section
 ```
 
-- join as an attacker
+- **join as an attacker**
 
 > **POST** /room/join/{roomId}/{attackerId}
 
@@ -79,7 +79,7 @@ Request payload
 Response
 room details, please refer to later section
 ```
-- apply strategy
+- **apply strategy**
 
 > **GET** /room/apply/{roomId}
 
@@ -88,9 +88,9 @@ Response
 room details, please refer to later section
 ```
 
-- clean inactive rooms
+- **clean inactive rooms**
 
-> **GET** /room/clean
+> **GET** /room/clean (the web service will also periodically cleanup inactive rooms)
 
 ```
 Response
@@ -99,7 +99,7 @@ Response
 }
 ```
 
-- response of room detail
+- **response of room detail**
 
 ```
 {
