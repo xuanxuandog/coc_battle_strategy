@@ -7,7 +7,7 @@
 
 # Web Service REST API
 - create a room
-> POST http://host_name:port/room
+>POST http://host_name:port/room
 ```
 {
   "defenders":[0,0,0,..., 0],//required, the initial completed stars of each defender
