@@ -57,6 +57,31 @@ Response
 }
 ```
 
+- update target stars
+
+> **GET** http://hostname:port/room/target/{roomId}/{number of target stars}
+
+```
+Response
+room details, please refer to later section
+```
+
+- join as an attacker
+
+> **POST** http://hostname:port/room/join/{roomId}/{attackerId}
+
+```
+Request payload
+{
+  "starConfidence":[1,3,3],//required, the number of stars that this attacker think he/she can get from each defenders.
+                           //note, if some defender has already been attacked by this attacker, the value should be set to 0 for
+                           //that defender
+  "attackChance":1 //optional, the left attack chance that this attacker has. If not set, the default value is 2
+}
+Response
+room details, please refer to later section
+```
+
 - response of room detail
 
 ```
