@@ -5,7 +5,7 @@ This project is to build software which is used for COC(clash of clan) players t
 
 # Use Cases
 - The capatain of the clan can create a room and input the number of defenders that they need attack, also can set the initial stars of each defenders that has already been completed(this is used for the scenarios that the battle is already on the way, so that capatain may need adjust the strategy). After room created, the capatain will be informed the room id, then he/she can forecast the room id to all the players that will attend this battle.
-- Each player can join a room using room id and input the number of stars that he/she can get from each defender of the other clan
+- Each player can join a room using room id and input the number of stars that he/she can get from each defender of the other clan. In addition, each player can input the number of attack chance that he/she left(the default value is 2). If some player has already attacked some defender, the attacker should also input this information.
 - Then after all players have finished their input, the capatain can get the best strategy. (Capatain can also set a target number of stars based on all players input)
 
 # Build/Start Web Service
@@ -29,3 +29,7 @@ This project is to build software which is used for COC(clash of clan) players t
   "target":23 // optional, the target stars that user want to achieve from all the defenders, if it's not set, the default value is 3 * the number of defenders
 }
 ```
+
+- get a room info
+
+> **GET** http://hostname:port/room/id
