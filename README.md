@@ -24,7 +24,7 @@ This project is to build software which is used for COC(clash of clan) players t
 
 - create a room
 
-> **POST** http://hostname:port/room
+> **POST** /room
 
 ```
 Request payload
@@ -39,7 +39,7 @@ room details, please refer to later section
 
 - get a room info
 
-> **GET** http://hostname:port/room/id
+> **GET** /room/id
 
 ```
 Response
@@ -48,7 +48,7 @@ room details, please refer to later section
 
 - get count of active rooms
 
-> **GET** http://hostname:port/room/count
+> **GET** /room/count
 
 ```
 Response
@@ -59,7 +59,7 @@ Response
 
 - update target stars
 
-> **GET** http://hostname:port/room/target/{roomId}/{number of target stars}
+> **GET** /room/target/{roomId}/{number of target stars}
 
 ```
 Response
@@ -68,35 +68,67 @@ room details, please refer to later section
 
 - join as an attacker
 
-> **POST** http://hostname:port/room/join/{roomId}/{attackerId}
+> **POST** /room/join/{roomId}/{attackerId}
 
 ```
 Request payload
 {
-  "starConfidence":[1,3,3],//required, the number of stars that this attacker think he/she can get from each defenders.
-                           //note, if some defender has already been attacked by this attacker, the value should be set to 0 for
-                           //that defender
+  "starConfidence":[1,3,3],//required, the number of stars that this attacker think he/she can get from each defenders. note, if some defender has already been attacked by this attacker, the value should be set to 0 for that defender
   "attackChance":1 //optional, the left attack chance that this attacker has. If not set, the default value is 2
 }
 Response
 room details, please refer to later section
+```
+- apply strategy
+
+> **GET** /room/apply/{roomId}
+
+```
+Response
+room details, please refer to later section
+```
+
+- clean inactive rooms
+
+> **GET** /room/clean
+
+```
+Response
+{
+  "count":2 //number of active rooms after cleaning
+}
 ```
 
 - response of room detail
 
 ```
 {
-   "id": "1", // id of created room
+   "id": "1", // room id
    "targetStars": 9, // target stars
    "initialStars": 0, // initial stars that already completed
    "battleMap": { // the main output of the strategy, which tell the clan who need attack who
-       
+       "1":[ // attacker id
+         "3","4"// ids of defenders that this attacker should attack
+       ],
+       ...//more attackers
    },
    "totalCompletedStars": 0, // total completed stars from all the defenders
    "attackers": [ //the detail information of all the registered attackers
-   
+     {
+         "id": "1", // attacker id
+         "starConfidence": { // number of stars that this attacker think he/she can get from each defender, key is the defender id, value is the number of stars
+            "1": 1,
+            "2": 3,
+            "3": 3
+         },
+         "attackChance": 1 // number of attack chance that this attacker left
+      }
    ],
-   "completedStars": null // the detail number of completed stars of all the defenders
+   "completedStars": { // the detail number of completed stars of all the defenders, key is the defender id, value is the number of stars that get from that defender
+      "1": 0, 
+      "2": 0,
+      "3": 3
+    }
 }
 
 ```
