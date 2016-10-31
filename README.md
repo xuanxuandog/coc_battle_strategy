@@ -8,7 +8,7 @@
 # Web Service REST API
 - create a room
 > POST http://host_name:port/room
-```json
+```
 {
   "defenders":[0,0,0,..., 0],//required, the initial completed stars of each defender
   "target":23 // optional, the target stars that user want to achieve from all the defenders, if it's not set, the default value is 3 * the number of defenders
