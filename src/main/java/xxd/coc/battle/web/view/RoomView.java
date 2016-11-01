@@ -47,4 +47,8 @@ public class RoomView {
 	public Map<String, Integer> getCompletedStars() {
 		return room.getCompletedStars();
 	}
+	
+	public  int getTryCount() {
+		return room.getTryCount();
+	}
 }

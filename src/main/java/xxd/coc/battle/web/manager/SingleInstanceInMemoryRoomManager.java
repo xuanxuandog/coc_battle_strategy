@@ -144,8 +144,7 @@ public class SingleInstanceInMemoryRoomManager implements RoomManager {
 			for (String id : toBeRemoved) {
 				this.rooms.remove(id);
 			}
-		}
-		
+		}	
 	}
 	
 }

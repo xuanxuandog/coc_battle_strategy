@@ -105,4 +105,12 @@ public class Room {
 			return 0;
 		}
 	}
+	
+	public int getTryCount() {
+		if (this.output != null) {
+			return this.output.getTryCount();
+		} else {
+			return 0;
+		}
+	}
 }

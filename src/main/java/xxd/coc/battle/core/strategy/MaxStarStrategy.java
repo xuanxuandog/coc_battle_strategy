@@ -16,6 +16,13 @@ import xxd.coc.battle.core.model.Defender;
 
 public class MaxStarStrategy implements Strategy {
 
+	//the max number of trial, if exceeds,
+	//return the current best output
+	private static final int MAX_TRY = 50000;
+	
+	//current trial count
+	private int tryCount = 0;
+	
 	private StrategyOutput output = null;
 	
 	private int targetStars = 0;
@@ -33,6 +40,15 @@ public class MaxStarStrategy implements Strategy {
 		Map<String, Defender> defenders = input.getDefenders();
 		
 		this.targetStars = input.getTargetStars();
+		this.tryCount = 0;
+		
+		for (Attacker attacker : attackers) {
+			attacker.reset();
+		}
+		
+		for (Defender defender : defenders.values()) {
+			defender.reset();
+		}
 		
 		//attackers that will join the battle(attackers that has at least one attackable defender)
 		List<Attacker> attackersOnBattle = new ArrayList<Attacker>();
@@ -52,6 +68,7 @@ public class MaxStarStrategy implements Strategy {
 		//recursively list all the situations and return if the one try round meet the target number of stars
 		oneRound(0, attackersOnBattle, defenders);
 		
+		this.output.setTryCount(this.tryCount);
 		return this.output;
 	}
 	
@@ -64,8 +81,7 @@ public class MaxStarStrategy implements Strategy {
 	 */
 	private void oneRound(int index, List<Attacker> attackers, Map<String, Defender> defenders) {
 		
-		//target meet, return the output
-		if (this.output != null && this.output.getStarNumber() >= this.targetStars) {
+		if (this.isFinish()) {
 			return;
 		}
 		
@@ -74,6 +90,7 @@ public class MaxStarStrategy implements Strategy {
 		List<AttackableGroup> attackableGroups = attacker.getAttackableGroups();
 		
 		//iterator all attackable groups of this attacker
+		boolean attacked = false;
 		for (AttackableGroup attackableGroup : attackableGroups) {
 			
 			//check whether all defenders in this group has been got max stars,
@@ -88,7 +105,7 @@ public class MaxStarStrategy implements Strategy {
 			if (allMaxStar) {
 				continue;
 			}
-			
+			attacked = true;
 			//attack each defender in this attackable group
 			for (String defenderId : attackableGroup.getDefenderIds()) {
 				if (attacker.attack(defenders.get(defenderId)) >= Defender.MAX_STARS) {
@@ -101,8 +118,8 @@ public class MaxStarStrategy implements Strategy {
 				oneRound(index + 1, attackers, defenders);
 			} else { //this is the last attacker, need calculate the final result and compare to current max stars
 				this.calculateResult(attackers, defenders);
-				//meet the target, return the output
-				if (this.output != null && this.output.getStarNumber() >= this.targetStars) {
+				this.tryCount++;
+				if (this.isFinish()) {
 					return;
 				}
 			}
@@ -110,7 +127,30 @@ public class MaxStarStrategy implements Strategy {
 			attacker.reset();
 		}
 		
+		if (!attacked) {
+			//this attacker hasn't attacked any defenders, need check whether he/she is the last attacker, if so, need calculate result
+			if (index == attackers.size() - 1) {
+				this.calculateResult(attackers, defenders);
+				this.tryCount++;
+				//meet the target or exceed max try count, return the output
+				if (this.isFinish()) {
+					return;
+				}
+			}
+		}
 		
+		
+	}
+	
+	/**
+	 * check whether need finish and return the current output.
+	 * Need meet one of following 2 conditions:
+	 * 1. meet the target star numbers
+	 * 2. try count exceeded max try count
+	 * @return
+	 */
+	private boolean isFinish() {
+		return (this.output != null && this.output.getStarNumber() >= this.targetStars) || this.tryCount >= MAX_TRY;
 	}
 	
 	private void calculateResult(List<Attacker> attackers, Map<String, Defender> defenders) {
@@ -145,7 +185,6 @@ public class MaxStarStrategy implements Strategy {
 		int sum = 0;
 		int initialStars = 0;
 		Map<String, Integer> completedStars = new HashMap<String, Integer>();
-		int index = 0;
 		for (Defender def : defenders.values()) {
 			sum += def.getCompletedStars();
 			initialStars += def.getInitialStars();

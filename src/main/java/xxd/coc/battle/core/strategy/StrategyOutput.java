@@ -18,8 +18,18 @@ public class StrategyOutput {
 	//the completed stars of each defender
     private Map<String, Integer> completedStars = null;
 	
+	private int tryCount;
 	
-	
+	public int getTryCount() {
+		return tryCount;
+	}
+
+
+	public void setTryCount(int tryCount) {
+		this.tryCount = tryCount;
+	}
+
+
 	public Map<String, Integer> getCompletedStars() {
 		return completedStars;
 	}
