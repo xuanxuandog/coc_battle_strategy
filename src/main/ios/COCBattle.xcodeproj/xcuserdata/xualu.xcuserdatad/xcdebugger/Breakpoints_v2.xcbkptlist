@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   type = "1"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "COCBattle/CreateBattleViewController.swift"
+            timestampString = "500090129.114852"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "22"
+            endingLineNumber = "22"
+            landmarkName = "CreateBattleViewController"
+            landmarkType = "3">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "COCBattle.CreateBattleViewController.cells.setter : Swift.Array&lt;Swift.Optional&lt;COCBattle.StarTableViewCell&gt;&gt;"
+                  moduleName = "COCBattle"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/xualu/Documents/workspace/COCBattle/COCBattle/CreateBattleViewController.swift"
+                  timestampString = "500090252.69551"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "22"
+                  endingLineNumber = "22"
+                  offsetFromSymbolStart = "65">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "COCBattle.CreateBattleViewController.init (nibName : Swift.Optional&lt;Swift.String&gt;, bundle : Swift.Optional&lt;__ObjC.Bundle&gt;) -&gt; COCBattle.CreateBattleViewController"
+                  moduleName = "COCBattle"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/xualu/Documents/workspace/COCBattle/COCBattle/CreateBattleViewController.swift"
+                  timestampString = "500090252.698164"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "22"
+                  endingLineNumber = "22"
+                  offsetFromSymbolStart = "87">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "COCBattle.CreateBattleViewController.init (coder : __ObjC.NSCoder) -&gt; Swift.Optional&lt;COCBattle.CreateBattleViewController&gt;"
+                  moduleName = "COCBattle"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/xualu/Documents/workspace/COCBattle/COCBattle/CreateBattleViewController.swift"
+                  timestampString = "500090252.700866"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "22"
+                  endingLineNumber = "22"
+                  offsetFromSymbolStart = "49">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "COCBattle/CreateBattleViewController.swift"
+            timestampString = "500193220.109355"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "52"
+            endingLineNumber = "52"
+            landmarkName = "viewDidLoad()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>
