@@ -16,10 +16,6 @@ class StarTableViewCell: UITableViewCell {
     
     @IBOutlet weak var viewStar: Star!
     
-    @IBOutlet weak var switchAlreadyAttacked: UISwitch!
-    
-    @IBOutlet weak var labelAlreadyAttacked: UILabel!
-    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

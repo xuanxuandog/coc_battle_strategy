@@ -24,8 +24,12 @@ public class RoomView {
 		return room.getTargetStars();
 	}
 	
-	public int getInitialStars() {
+	public int[] getInitialStars() {
 		return room.getInitialStars();
+	}
+	
+	public int getTotalInitialStars() {
+		return room.getTotalInitialStars();
 	}
 	
 	public Map<String,Set<String>> getBattleMap() {

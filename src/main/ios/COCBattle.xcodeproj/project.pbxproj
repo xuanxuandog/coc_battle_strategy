@@ -24,6 +24,8 @@
 		51C07A541DD041F400B70DC8 /* AsyncTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51C07A531DD041F400B70DC8 /* AsyncTask.swift */; };
 		51C07A561DD04E2700B70DC8 /* ShowMessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51C07A551DD04E2700B70DC8 /* ShowMessageViewController.swift */; };
 		51C07A581DD054B200B70DC8 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51C07A571DD054B200B70DC8 /* Utils.swift */; };
+		51C07A5C1DD0846D00B70DC8 /* Attacker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51C07A5B1DD0846D00B70DC8 /* Attacker.swift */; };
+		51C07A5E1DD0C43600B70DC8 /* JoinBattleStepOneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51C07A5D1DD0C43600B70DC8 /* JoinBattleStepOneViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,6 +60,8 @@
 		51C07A531DD041F400B70DC8 /* AsyncTask.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsyncTask.swift; sourceTree = "<group>"; };
 		51C07A551DD04E2700B70DC8 /* ShowMessageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShowMessageViewController.swift; sourceTree = "<group>"; };
 		51C07A571DD054B200B70DC8 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		51C07A5B1DD0846D00B70DC8 /* Attacker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Attacker.swift; sourceTree = "<group>"; };
+		51C07A5D1DD0C43600B70DC8 /* JoinBattleStepOneViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JoinBattleStepOneViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,6 +131,7 @@
 				51C07A471DCF652E00B70DC8 /* Defender.swift */,
 				51C07A4E1DD0198000B70DC8 /* Battle.swift */,
 				51C07A531DD041F400B70DC8 /* AsyncTask.swift */,
+				51C07A5B1DD0846D00B70DC8 /* Attacker.swift */,
 			);
 			name = model;
 			sourceTree = "<group>";
@@ -140,6 +145,7 @@
 				51C07A391DCDF30E00B70DC8 /* CreateBattleViewController.swift */,
 				51C07A491DCF714E00B70DC8 /* ViewBattleViewController.swift */,
 				51C07A551DD04E2700B70DC8 /* ShowMessageViewController.swift */,
+				51C07A5D1DD0C43600B70DC8 /* JoinBattleStepOneViewController.swift */,
 			);
 			name = controller;
 			sourceTree = "<group>";
@@ -256,8 +262,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				51C07A5C1DD0846D00B70DC8 /* Attacker.swift in Sources */,
 				51C07A541DD041F400B70DC8 /* AsyncTask.swift in Sources */,
 				51C07A3A1DCDF30E00B70DC8 /* CreateBattleViewController.swift in Sources */,
+				51C07A5E1DD0C43600B70DC8 /* JoinBattleStepOneViewController.swift in Sources */,
 				51C07A521DD020E700B70DC8 /* MyJSON.swift in Sources */,
 				51C07A1C1DCCC19700B70DC8 /* MainViewController.swift in Sources */,
 				51C07A461DCF639700B70DC8 /* StarChanged.swift in Sources */,
@@ -474,6 +482,7 @@
 				51C07A351DCCC19800B70DC8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		51C07A361DCCC19800B70DC8 /* Build configuration list for PBXNativeTarget "COCBattleTests" */ = {
 			isa = XCConfigurationList;
@@ -482,6 +491,7 @@
 				51C07A381DCCC19800B70DC8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

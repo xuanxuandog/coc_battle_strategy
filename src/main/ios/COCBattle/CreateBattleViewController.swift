@@ -114,8 +114,6 @@ class CreateBattleViewController: UIViewController, UIPickerViewDelegate, UIPick
         //init cell's value
         cell.viewStar.selectedStars = (defender?.initialStarCount)!
         cell.labelIndex.text = String(indexPath.row + 1)
-        cell.labelAlreadyAttacked.isHidden = true
-        cell.switchAlreadyAttacked.isHidden = true
         
         return cell
 
@@ -152,7 +150,10 @@ class CreateBattleViewController: UIViewController, UIPickerViewDelegate, UIPick
             var result = false
             Utils.navigationItemAcitivityIndicatorStart(self.navigationItem, leftOrRight: "right")
             battle = Battle()
-            battle?.defenders = self.defenders
+            battle?.defenders = [Defender?]()
+            for i in 0...self.playerNumberPickerView.selectedRow(inComponent: 0) + MIN_PLAYERS {
+                battle?.defenders.append(self.defenders[i])
+            }
             battle?.create()
             
             while (true) {

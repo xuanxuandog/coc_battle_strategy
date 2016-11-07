@@ -21,6 +21,10 @@ public class Room {
 	
 	private StrategyOutput output;
 	
+	private int[] initialStars;
+	
+	private int totalInitialStars;
+	
 	public Room() {
 		this(null);
 	}
@@ -36,6 +40,12 @@ public class Room {
 	}
 	
 	public void joinDefenders(int[] initialStars) {
+		this.initialStars = initialStars;
+		if (this.initialStars != null) {
+			for (int i : this.initialStars) {
+				this.totalInitialStars += i;
+			}
+		}
 		this.input.setDefenders(AttackerDefenderFactory.getInstance().getDefenders(initialStars));
 	}
 	
@@ -43,12 +53,12 @@ public class Room {
 		input.getAttackers().put(attacker.getId(), attacker);
 	}
 	
-	public int getInitialStars() {
-	    if (this.output != null) {
-	    	return this.output.getInitialStars();
-	    } else {
-	    	return 0;
-	    }
+	public int[] getInitialStars() {
+	    return this.initialStars;
+	}
+	
+	public int getTotalInitialStars() {
+		return this.totalInitialStars;
 	}
 	
 	public void setTargetStars(int targetStars) {

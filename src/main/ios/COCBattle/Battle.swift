@@ -10,6 +10,9 @@ import Foundation
 
 class Battle : AsyncTask {
     
+    //static let BASEURL = "http://1599q744m9.51mypc.cn/room"
+    static let BASEURL = "http://localhost:8080/room"
+    
     // MARK: Properties
     var id : String = ""
     
@@ -21,7 +24,7 @@ class Battle : AsyncTask {
         
         self.state = AsyncTaskState.RUNNING
         
-        var request = URLRequest(url: URL(string: "http://1599q744m9.51mypc.cn/room")!)
+        var request = URLRequest(url: URL(string: Battle.BASEURL)!)
         request.httpMethod = "POST"
         
         
@@ -35,6 +38,7 @@ class Battle : AsyncTask {
         json.set(key: "defenders", value: initialCompletedStars)
         
         let postString = json.toString()
+        print ("requestString = \(postString)")
         request.httpBody = postString.data(using: .utf8)
  
         let task = URLSession.shared.dataTask(with: request) { data, response, error in

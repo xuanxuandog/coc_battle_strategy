@@ -60,6 +60,10 @@ public class MaxStarStrategy implements Strategy {
 			}
 		}
 		
+		if (attackersOnBattle.size() == 0) {
+			return this.output;
+		}
+		
 		//put weak attacker before strong attacker for better performance
 		Collections.sort(attackersOnBattle);
 		
