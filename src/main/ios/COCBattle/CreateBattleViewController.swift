@@ -130,6 +130,10 @@ class CreateBattleViewController: UIViewController, UIPickerViewDelegate, UIPick
         tableDefenders.reloadData()
     }
     
+    @IBAction func unwindToTest(segue: UIStoryboardSegue) {
+        print ("hello")
+    }
+    
     
     // MARK: - Navigation
 
@@ -168,7 +172,7 @@ class CreateBattleViewController: UIViewController, UIPickerViewDelegate, UIPick
             }
             
             if (!result) {
-                Utils.showAlert(title: "Error", message: "Create battle failed, please try later.", parentView: self)
+                Utils.showAlert(title: "Error", message: "Create battle failed, please try later.", parentView: self, completion : nil)
             }
                 
             self.navigationItem.rightBarButtonItem = self.btnSave

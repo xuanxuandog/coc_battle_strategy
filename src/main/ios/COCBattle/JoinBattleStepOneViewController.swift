@@ -10,9 +10,12 @@ import UIKit
 
 class JoinBattleStepOneViewController: UIViewController {
 
+    // MARK: Properties
+    var battle : Battle?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Do any additional setup after loading the view.
     }
 
@@ -31,5 +34,6 @@ class JoinBattleStepOneViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
 
 }

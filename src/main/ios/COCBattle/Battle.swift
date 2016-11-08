@@ -51,6 +51,8 @@ class Battle : AsyncTask {
             if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200 {           // check for http errors
                 print("statusCode should be 200, but is \(httpStatus.statusCode)")
                 print("response = \(response)")
+                self.state = AsyncTaskState.ERROR
+                return
             }
             
             let responseString = String(data: data, encoding: .utf8)
@@ -62,6 +64,39 @@ class Battle : AsyncTask {
         
         
     }
+    
+    public func load() {
+        //call RESTAPI to create a battle
+        
+        self.state = AsyncTaskState.RUNNING
+        
+        let url = "\(Battle.BASEURL)/\(self.id)"
+        print ("url=\(url)")
+        var request = URLRequest(url: URL(string:url)!)
+        request.httpMethod = "GET"
+        
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let data = data, error == nil else {                                                 // check for fundamental networking error
+                print("error=\(error)")
+                self.state = AsyncTaskState.ERROR
+                return
+            }
+            
+            if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200 {           // check for http errors
+                print("statusCode should be 200, but is \(httpStatus.statusCode)")
+                print("response = \(response)")
+                self.state = AsyncTaskState.ERROR
+                return
+            }
+            
+            let responseString = String(data: data, encoding: .utf8)
+            
+            self.state = AsyncTaskState.DONE
+            print("responseString = \(responseString)")
+        }
+        task.resume()
+    }
+    
     
     // MARK: AsyncTask functions
     
