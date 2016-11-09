@@ -82,9 +82,7 @@ class CreateBattleViewController: UIViewController, UIPickerViewDelegate, UIPick
         }
     }
     
-    // MARK: UITableViewDelegate functions
 
-    
     // MARK: UITableViewDataSource functions
     
     public func numberOfSections(in tableView: UITableView) -> Int {
@@ -128,10 +126,6 @@ class CreateBattleViewController: UIViewController, UIPickerViewDelegate, UIPick
     
     @IBAction func setInitialCompletedStars(_ sender: Any) {
         tableDefenders.reloadData()
-    }
-    
-    @IBAction func unwindToTest(segue: UIStoryboardSegue) {
-        print ("hello")
     }
     
     

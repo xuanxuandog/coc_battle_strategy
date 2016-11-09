@@ -21,7 +21,7 @@ class Star: UIView {
     
     let spacing = 5
     
-    var starChanged : StarChanged?
+    var starChanged : ValueChanged?
     
     // MARK: Initialization
     required init?(coder aDecoder: NSCoder) {
@@ -81,7 +81,7 @@ class Star: UIView {
         updateButtonSelectionStates()
         
         if let starChanged = self.starChanged {
-            starChanged.changed(selectedStars)
+            starChanged.changed(self)
         }
     }
     

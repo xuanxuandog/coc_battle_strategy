@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Defender : StarChanged {
+class Defender : ValueChanged {
     
     // MARK: Properties
     
@@ -22,7 +22,9 @@ class Defender : StarChanged {
         self.id = id
     }
     
-    public func changed(_ initialStarCount: Int) {
-        self.initialStarCount = initialStarCount
+    public func changed(_ caller: Any?) {
+        if let caller = caller as! Star? {
+            self.initialStarCount = caller.selectedStars
+        }
     }
 }

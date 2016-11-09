@@ -16,7 +16,7 @@
 		51C07A3A1DCDF30E00B70DC8 /* CreateBattleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51C07A391DCDF30E00B70DC8 /* CreateBattleViewController.swift */; };
 		51C07A3E1DCE229C00B70DC8 /* Star.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51C07A3D1DCE229C00B70DC8 /* Star.swift */; };
 		51C07A421DCE378C00B70DC8 /* StarTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51C07A411DCE378C00B70DC8 /* StarTableViewCell.swift */; };
-		51C07A461DCF639700B70DC8 /* StarChanged.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51C07A451DCF639700B70DC8 /* StarChanged.swift */; };
+		51C07A461DCF639700B70DC8 /* ValueChanged.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51C07A451DCF639700B70DC8 /* ValueChanged.swift */; };
 		51C07A481DCF652E00B70DC8 /* Defender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51C07A471DCF652E00B70DC8 /* Defender.swift */; };
 		51C07A4A1DCF714E00B70DC8 /* ViewBattleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51C07A491DCF714E00B70DC8 /* ViewBattleViewController.swift */; };
 		51C07A4F1DD0198000B70DC8 /* Battle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51C07A4E1DD0198000B70DC8 /* Battle.swift */; };
@@ -26,6 +26,8 @@
 		51C07A581DD054B200B70DC8 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51C07A571DD054B200B70DC8 /* Utils.swift */; };
 		51C07A5C1DD0846D00B70DC8 /* Attacker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51C07A5B1DD0846D00B70DC8 /* Attacker.swift */; };
 		51C07A5E1DD0C43600B70DC8 /* JoinBattleStepOneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51C07A5D1DD0C43600B70DC8 /* JoinBattleStepOneViewController.swift */; };
+		51C07A601DD2C3D600B70DC8 /* AttackedEnemyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51C07A5F1DD2C3D600B70DC8 /* AttackedEnemyTableViewCell.swift */; };
+		51E6D40D1DD310E500A39258 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51E6D40C1DD310E500A39258 /* SwiftyJSON.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,7 +54,7 @@
 		51C07A391DCDF30E00B70DC8 /* CreateBattleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateBattleViewController.swift; sourceTree = "<group>"; };
 		51C07A3D1DCE229C00B70DC8 /* Star.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Star.swift; sourceTree = "<group>"; };
 		51C07A411DCE378C00B70DC8 /* StarTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StarTableViewCell.swift; sourceTree = "<group>"; };
-		51C07A451DCF639700B70DC8 /* StarChanged.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StarChanged.swift; sourceTree = "<group>"; };
+		51C07A451DCF639700B70DC8 /* ValueChanged.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValueChanged.swift; sourceTree = "<group>"; };
 		51C07A471DCF652E00B70DC8 /* Defender.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Defender.swift; path = ../Defender.swift; sourceTree = "<group>"; };
 		51C07A491DCF714E00B70DC8 /* ViewBattleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewBattleViewController.swift; sourceTree = "<group>"; };
 		51C07A4E1DD0198000B70DC8 /* Battle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Battle.swift; sourceTree = "<group>"; };
@@ -62,6 +64,8 @@
 		51C07A571DD054B200B70DC8 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		51C07A5B1DD0846D00B70DC8 /* Attacker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Attacker.swift; sourceTree = "<group>"; };
 		51C07A5D1DD0C43600B70DC8 /* JoinBattleStepOneViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JoinBattleStepOneViewController.swift; sourceTree = "<group>"; };
+		51C07A5F1DD2C3D600B70DC8 /* AttackedEnemyTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttackedEnemyTableViewCell.swift; sourceTree = "<group>"; };
+		51E6D40C1DD310E500A39258 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,7 +131,6 @@
 		51C07A4C1DD0180200B70DC8 /* model */ = {
 			isa = PBXGroup;
 			children = (
-				51C07A451DCF639700B70DC8 /* StarChanged.swift */,
 				51C07A471DCF652E00B70DC8 /* Defender.swift */,
 				51C07A4E1DD0198000B70DC8 /* Battle.swift */,
 				51C07A531DD041F400B70DC8 /* AsyncTask.swift */,
@@ -139,6 +142,7 @@
 		51C07A4D1DD0181F00B70DC8 /* controller */ = {
 			isa = PBXGroup;
 			children = (
+				51C07A451DCF639700B70DC8 /* ValueChanged.swift */,
 				51C07A3D1DCE229C00B70DC8 /* Star.swift */,
 				51C07A411DCE378C00B70DC8 /* StarTableViewCell.swift */,
 				51C07A1B1DCCC19700B70DC8 /* MainViewController.swift */,
@@ -146,6 +150,7 @@
 				51C07A491DCF714E00B70DC8 /* ViewBattleViewController.swift */,
 				51C07A551DD04E2700B70DC8 /* ShowMessageViewController.swift */,
 				51C07A5D1DD0C43600B70DC8 /* JoinBattleStepOneViewController.swift */,
+				51C07A5F1DD2C3D600B70DC8 /* AttackedEnemyTableViewCell.swift */,
 			);
 			name = controller;
 			sourceTree = "<group>";
@@ -153,6 +158,7 @@
 		51C07A501DD020BB00B70DC8 /* utils */ = {
 			isa = PBXGroup;
 			children = (
+				51E6D40C1DD310E500A39258 /* SwiftyJSON.swift */,
 				51C07A511DD020E700B70DC8 /* MyJSON.swift */,
 				51C07A571DD054B200B70DC8 /* Utils.swift */,
 			);
@@ -268,13 +274,15 @@
 				51C07A5E1DD0C43600B70DC8 /* JoinBattleStepOneViewController.swift in Sources */,
 				51C07A521DD020E700B70DC8 /* MyJSON.swift in Sources */,
 				51C07A1C1DCCC19700B70DC8 /* MainViewController.swift in Sources */,
-				51C07A461DCF639700B70DC8 /* StarChanged.swift in Sources */,
+				51C07A461DCF639700B70DC8 /* ValueChanged.swift in Sources */,
 				51C07A581DD054B200B70DC8 /* Utils.swift in Sources */,
 				51C07A1A1DCCC19700B70DC8 /* AppDelegate.swift in Sources */,
 				51C07A481DCF652E00B70DC8 /* Defender.swift in Sources */,
+				51C07A601DD2C3D600B70DC8 /* AttackedEnemyTableViewCell.swift in Sources */,
 				51C07A3E1DCE229C00B70DC8 /* Star.swift in Sources */,
 				51C07A421DCE378C00B70DC8 /* StarTableViewCell.swift in Sources */,
 				51C07A4A1DCF714E00B70DC8 /* ViewBattleViewController.swift in Sources */,
+				51E6D40D1DD310E500A39258 /* SwiftyJSON.swift in Sources */,
 				51C07A4F1DD0198000B70DC8 /* Battle.swift in Sources */,
 				51C07A561DD04E2700B70DC8 /* ShowMessageViewController.swift in Sources */,
 			);

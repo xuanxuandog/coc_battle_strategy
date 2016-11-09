@@ -93,6 +93,17 @@ class Battle : AsyncTask {
             
             self.state = AsyncTaskState.DONE
             print("responseString = \(responseString)")
+            let responseData = responseString?.data(using: String.Encoding.utf8)
+            let responseJson = JSON(data: responseData!)
+            
+            self.defenders = [Defender?]()
+            var index = 0
+            for item in responseJson["initialStars"].arrayValue {
+                let defender = Defender(String(index))
+                defender.initialStarCount = item.intValue
+                self.defenders.append(defender)
+                index = index + 1
+            }
         }
         task.resume()
     }

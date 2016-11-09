@@ -16,6 +16,8 @@ class StarTableViewCell: UITableViewCell {
     
     @IBOutlet weak var viewStar: Star!
     
+    var positionChanged : ValueChanged?
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -26,5 +28,7 @@ class StarTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
+    
+    
 
 }

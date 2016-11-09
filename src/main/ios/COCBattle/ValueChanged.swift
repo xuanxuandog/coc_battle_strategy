@@ -8,9 +8,9 @@
 
 import Foundation
 
-protocol StarChanged {
+protocol ValueChanged {
     /*
        starCount is the number of selected star after change
     */
-    func changed(_ starCount : Int)
+    func changed(_ caller : Any?)
 }
