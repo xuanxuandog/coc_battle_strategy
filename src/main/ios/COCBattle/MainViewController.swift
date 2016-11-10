@@ -52,7 +52,7 @@ class MainViewController: UIViewController {
                 Utils.showAlert(title: "Error", message: "Join battle failed, please try later", parentView: self, completion : nil)
             } else {
             
-                self.performSegue(withIdentifier: "JoinBattleStepOne", sender: self)
+                self.performSegue(withIdentifier: "JoinBattle", sender: self)
             }
             
             
@@ -67,9 +67,9 @@ class MainViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
-        if segue.identifier == "JoinBattleStepOne" {
-            let joinBattleStepOneViewController = segue.destination as! JoinBattleStepOneViewController
-            joinBattleStepOneViewController.battle = self.battle
+        if segue.identifier == "JoinBattle" {
+            let joinBattleViewController = segue.destination as! JoinBattleViewController
+            joinBattleViewController.battle = self.battle
         }
     }
     

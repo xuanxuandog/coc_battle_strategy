@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Attacker {
+class Attacker : ValueChanged{
     
     static let TOTAL_ATTACK_CHANCE = 2
     
@@ -20,6 +20,13 @@ class Attacker {
     
     var leftAttackChance = TOTAL_ATTACK_CHANCE
     
+    var observer : ValueChanged?
     
+    func changed(_ caller: Any?) {
+        if let caller = caller as! Star? {
+            self.starConfidence[caller.rowInTable] = caller.selectedStars
+            observer?.changed(self)
+        }
+    }
     
 }

@@ -1,5 +1,5 @@
 //
-//  JoinBattleStepOneViewController.swift
+//  JoinBattleViewController.swift
 //  COCBattle
 //
 //  Created by xualu on 11/7/16.
@@ -8,14 +8,13 @@
 
 import UIKit
 
-class JoinBattleStepOneViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITableViewDelegate, UITableViewDataSource,ValueChanged {
+class JoinBattleViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITableViewDelegate, UITableViewDataSource, ValueChanged {
 
     // MARK: Properties
     var battle : Battle!
-    var attacker : Attacker!
+    var attacker = Attacker()
     
-    //the value is the id of the defender that this attacker has already attacked.
-    var attackedDefenders = [Int?]()
+    var attackedEnemyPosition = 0
     
     // MARK: Outlets
     
@@ -23,8 +22,15 @@ class JoinBattleStepOneViewController: UIViewController, UIPickerViewDelegate, U
     
     @IBOutlet weak var tableAttacked: UITableView!
     
+    @IBOutlet weak var switchAttacked: UISwitch!
+    
+    @IBOutlet weak var btnJoin: UIBarButtonItem!
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        for _ in 0...battle.defenders.count {
+            self.attacker.starConfidence.append(0)
+        }
         
         pickerAttackerPosition.delegate = self
         pickerAttackerPosition.selectRow(0, inComponent: 0, animated: true)
@@ -32,11 +38,9 @@ class JoinBattleStepOneViewController: UIViewController, UIPickerViewDelegate, U
         tableAttacked.delegate = self
         tableAttacked.dataSource = self
         
-        self.attacker = Attacker()
-        //init array of attacked defenders, 0 means no defender
-        for _ in 0...Attacker.TOTAL_ATTACK_CHANCE {
-            attackedDefenders.append(0)
-        }
+        self.attacker.observer = self
+        
+        updateJoinButtonStatus()
     }
 
     override func didReceiveMemoryWarning() {
@@ -63,7 +67,7 @@ class JoinBattleStepOneViewController: UIViewController, UIPickerViewDelegate, U
     }
     
     public func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        self.attacker?.id = String(row + 1)
+        self.attacker.id = String(row + 1)
     }
     
     // MARK: UITableViewDataSource functions
@@ -73,54 +77,56 @@ class JoinBattleStepOneViewController: UIViewController, UIPickerViewDelegate, U
     }
     
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        var count = 0
-        for i in self.attackedDefenders {
-            if (i == 0) {
-                return count
-            } else {
-                count = count + 1
-            }
-        }
-        print (count)
-        return count
+        return self.battle.defenders.count
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
+        print ("index:\(indexPath.row)")
         
-        let cellIdentifier = "AttackedEnemyTableViewCell"
-        //let cell = StarTableViewCell()
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! AttackedEnemyTableViewCell
-        cell.enemyCount = self.battle.defenders.count
-        cell.positionChanged = self
-        cell.rowInTable = indexPath.row
-        cell.pickerEnemyPosition.delegate = cell
-        cell.pickerEnemyPosition.selectRow(self.attackedDefenders[indexPath.row]! - 1, inComponent: 0, animated: false)
+        let cellIdentifier = "StarTableViewCell"
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! StarTableViewCell
         
+        //set self attacker to the cell's callback of star changed
+        cell.viewStar.starChanged = self.attacker
+        cell.viewStar.rowInTable = indexPath.row
+        
+        //init cell's value
+        cell.viewStar.selectedStars = self.attacker.starConfidence[indexPath.row]!
+        cell.labelIndex.text = String(indexPath.row + 1)
         return cell
         
-    }
-    
-    // MARK: - ValueChanged protocol function
-    func changed(_ caller : Any?) {
-        if let caller = caller as! AttackedEnemyTableViewCell? {
-            self.attackedDefenders[caller.rowInTable!] = caller.selectedPosition
-        }
     }
 
     // MARK: Actions
     
+    @IBAction func alreadyAttacked(_ sender: Any) {
+    }
+
+    @IBAction func joinBattle(_ sender: Any) {
+    }
     
-    @IBAction func btnAddAttackedEnemy(_ sender: Any) {
-        for i in 0...self.attackedDefenders.count {
-            if (self.attackedDefenders[i] == 0) {
-                self.attackedDefenders[i] = 1
+    // MARK: ValueChanged protocol function
+    func changed(_ caller: Any?) {
+        if let caller = caller as! Attacker? {
+            self.updateJoinButtonStatus()
+        }
+    }
+    
+    func updateJoinButtonStatus() {
+        var hasStar = false
+        for star in self.attacker.starConfidence {
+            if (star! > 0) {
+                hasStar = true
                 break
             }
         }
-        self.tableAttacked.reloadData()
+        if (hasStar) {
+            self.btnJoin.isEnabled = true
+        } else {
+            self.btnJoin.isEnabled = false
+        }
     }
-    
 
     /*
     // MARK: - Navigation

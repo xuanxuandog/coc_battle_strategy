@@ -23,6 +23,9 @@ class Star: UIView {
     
     var starChanged : ValueChanged?
     
+    //the row index in the parent table that hold the cell which contains this starView
+    var rowInTable = 0
+    
     // MARK: Initialization
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)

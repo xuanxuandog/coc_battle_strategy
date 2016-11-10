@@ -100,7 +100,6 @@ class CreateBattleViewController: UIViewController, UIPickerViewDelegate, UIPick
         
         
         let cellIdentifier = "StarTableViewCell"
-        //let cell = StarTableViewCell()
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! StarTableViewCell
 
         // Configure the cell...
