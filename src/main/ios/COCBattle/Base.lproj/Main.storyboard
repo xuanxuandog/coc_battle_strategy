@@ -41,19 +41,23 @@
                                             <rect key="frame" x="0.0" y="0.0" width="347" height="66"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yCX-k7-B6p" customClass="Star" customModule="COCBattle" customModuleProvider="target">
-                                                    <rect key="frame" x="83" y="15" width="188" height="36"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                </view>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LcA-7k-DQ9">
-                                                    <rect key="frame" x="8" y="23" width="67" height="21"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LcA-7k-DQ9">
+                                                    <rect key="frame" x="18" y="13" width="88" height="45"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yCX-k7-B6p" customClass="Star" customModule="COCBattle" customModuleProvider="target">
+                                                    <rect key="frame" x="126" y="13" width="213" height="45"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </view>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="LcA-7k-DQ9" firstAttribute="leading" secondItem="cZ8-ih-kBy" secondAttribute="leadingMargin" constant="10" id="72B-Gp-MbT"/>
+                                                <constraint firstItem="LcA-7k-DQ9" firstAttribute="top" secondItem="cZ8-ih-kBy" secondAttribute="topMargin" constant="5" id="eBS-TF-UlA"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="LcA-7k-DQ9" secondAttribute="bottom" constant="0.5" id="rYM-4c-GFA"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="labelIndex" destination="LcA-7k-DQ9" id="yay-ns-qBT"/>
@@ -214,7 +218,7 @@
                                         <rect key="frame" x="0.0" y="28" width="333" height="67"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="v2m-mx-1C5" id="oPA-hw-i2d">
-                                            <rect key="frame" x="0.0" y="0.0" width="333" height="67"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="333" height="66.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VJ7-Yv-7oV" customClass="Star" customModule="COCBattle" customModuleProvider="target">

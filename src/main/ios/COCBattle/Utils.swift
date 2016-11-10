@@ -11,27 +11,6 @@ import UIKit
 
 class Utils {
     
-    // MARK: Properties
-    
-    static let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle:.gray)
-    
-    static let barButtonActivityIndicator = UIBarButtonItem(customView: activityIndicator)
-    
-    static public func navigationItemAcitivityIndicatorStart(_ item : UINavigationItem, leftOrRight : String) {
-        activityIndicator.isHidden = false
-        activityIndicator.startAnimating()
-        if (leftOrRight == "left") {
-            item.leftBarButtonItem = barButtonActivityIndicator
-        } else if (leftOrRight == "right") {
-            item.rightBarButtonItem = barButtonActivityIndicator
-        }
-    }
-    
-    static public func navigationItemActivityIndicatorStop() {
-        activityIndicator.stopAnimating()
-        activityIndicator.isHidden = true
-    }
-    
     static public func showAlert(title : String, message : String, parentView : UIViewController?, completion :  ((UIAlertAction) -> Swift.Void)? = nil) {
         if let parentView = parentView {
             let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
@@ -41,7 +20,7 @@ class Utils {
         }
     }
     
-    static public func showAlert(title : String, parentView : UIViewController?) -> UIAlertController?{
+    static public func showInput(title : String, parentView : UIViewController?) -> UIAlertController?{
         if let parentView = parentView {
             
             let alert = UIAlertController(title: title, message: nil, preferredStyle: UIAlertControllerStyle.alert)
@@ -54,4 +33,19 @@ class Utils {
         return nil
     }
     
+    static public func showWaiting(title : String, parentView : UIViewController) -> UIAlertController {
+        let alert = UIAlertController(title: title, message: "\n\n\n\n", preferredStyle: UIAlertControllerStyle.alert)
+        let spinnerIndicator: UIActivityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge)
+        
+        spinnerIndicator.center = CGPoint(x:135.0, y:65.5)
+        spinnerIndicator.color = UIColor.black
+        spinnerIndicator.startAnimating()
+        
+        alert.view.addSubview(spinnerIndicator)
+        parentView.present(alert, animated: true, completion: nil)
+        
+        return alert
+    }
 }
+
+

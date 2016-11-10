@@ -144,8 +144,11 @@ class CreateBattleViewController: UIViewController, UIPickerViewDelegate, UIPick
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         
         if identifier == "CreateBattle" {
+            
+            let waiting = Utils.showWaiting(title: "Creating battle", parentView: self)
+            
             var result = false
-            Utils.navigationItemAcitivityIndicatorStart(self.navigationItem, leftOrRight: "right")
+            //Utils.navigationItemAcitivityIndicatorStart(self.navigationItem, leftOrRight: "right")
             battle = Battle()
             battle?.defenders = [Defender?]()
             for i in 0...self.playerNumberPickerView.selectedRow(inComponent: 0) + MIN_PLAYERS {
@@ -165,11 +168,15 @@ class CreateBattleViewController: UIViewController, UIPickerViewDelegate, UIPick
             }
             
             if (!result) {
-                Utils.showAlert(title: "Error", message: "Create battle failed, please try later.", parentView: self, completion : nil)
+                waiting.dismiss(animated: true, completion: {
+                    Utils.showAlert(title: "Error", message: "Create battle failed, please try later.", parentView: self, completion : nil)
+                })
+                
             }
                 
-            self.navigationItem.rightBarButtonItem = self.btnSave
-            Utils.navigationItemActivityIndicatorStop()
+            //self.navigationItem.rightBarButtonItem = self.btnSave
+            //Utils.navigationItemActivityIndicatorStop()
+            waiting.dismiss(animated: true, completion: nil)
             return result
         } else {
             return true

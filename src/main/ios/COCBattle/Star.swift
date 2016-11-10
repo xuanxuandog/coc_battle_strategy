@@ -23,6 +23,12 @@ class Star: UIView {
     
     var starChanged : ValueChanged?
     
+    var isEnabled = true {
+        didSet {
+            enableSelf()
+        }
+    }
+    
     //the row index in the parent table that hold the cell which contains this starView
     var rowInTable = 0
     
@@ -93,6 +99,14 @@ class Star: UIView {
             // If the index of a button is less than the rating, that button should be selected.
             button.isSelected = index < selectedStars
         }
+    }
+    
+    func enableSelf() {
+        
+        for btn in self.starButtons {
+            btn.isEnabled = self.isEnabled
+        }
+        
     }
     
 }

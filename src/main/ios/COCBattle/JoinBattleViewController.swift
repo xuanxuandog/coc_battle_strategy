@@ -11,10 +11,23 @@ import UIKit
 class JoinBattleViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITableViewDelegate, UITableViewDataSource, ValueChanged {
 
     // MARK: Properties
+    
+    let PICKER_ATTACKER_POSITION = 1
+    let PICKER_ATTACKED_ENEMY_POSITION = 2
+    
     var battle : Battle!
     var attacker = Attacker()
     
-    var attackedEnemyPosition = 0
+    var attackedEnemyPosition = 0 {
+        didSet {
+            if (attackedEnemyPosition > 0) {
+                self.attacker.starConfidence[attackedEnemyPosition - 1] = 0
+            }
+            self.tableAttacked.reloadData()
+        }
+    }
+    
+    var alert : UIAlertController!
     
     // MARK: Outlets
     
@@ -34,6 +47,7 @@ class JoinBattleViewController: UIViewController, UIPickerViewDelegate, UIPicker
         
         pickerAttackerPosition.delegate = self
         pickerAttackerPosition.selectRow(0, inComponent: 0, animated: true)
+        pickerAttackerPosition.tag = self.PICKER_ATTACKER_POSITION
         
         tableAttacked.delegate = self
         tableAttacked.dataSource = self
@@ -41,6 +55,33 @@ class JoinBattleViewController: UIViewController, UIPickerViewDelegate, UIPicker
         self.attacker.observer = self
         
         updateJoinButtonStatus()
+        
+        initAttackedEnemyPickerInput()
+        
+        // init UI for input attacked enemy position
+        if (self.attackedEnemyPosition > 0) {
+            self.switchAttacked.isOn = true
+        } else {
+            self.switchAttacked.isOn = false
+        }
+        
+    }
+    
+    func initAttackedEnemyPickerInput() {
+        
+        alert = UIAlertController(title:"Input enemy position", message:"\n\n\n\n\n", preferredStyle: UIAlertControllerStyle.alert)
+        
+        let pickerFrame: CGRect = CGRect(x: 85, y:50, width:100,height:80);
+        let picker = UIPickerView(frame: pickerFrame)
+        picker.delegate = self;
+        picker.dataSource = self;
+        picker.tag = self.PICKER_ATTACKED_ENEMY_POSITION
+        
+        
+        alert.view.addSubview(picker)
+        alert.isModalInPopover = true
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -67,7 +108,11 @@ class JoinBattleViewController: UIViewController, UIPickerViewDelegate, UIPicker
     }
     
     public func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        self.attacker.id = String(row + 1)
+        if (pickerView.tag == self.PICKER_ATTACKER_POSITION) {
+            self.attacker.id = String(row + 1)
+        } else if (pickerView.tag == self.PICKER_ATTACKED_ENEMY_POSITION) {
+            self.attackedEnemyPosition = row + 1
+        }
     }
     
     // MARK: UITableViewDataSource functions
@@ -93,7 +138,16 @@ class JoinBattleViewController: UIViewController, UIPickerViewDelegate, UIPicker
         
         //init cell's value
         cell.viewStar.selectedStars = self.attacker.starConfidence[indexPath.row]!
-        cell.labelIndex.text = String(indexPath.row + 1)
+        
+        let label : String!
+        if (self.attackedEnemyPosition == indexPath.row + 1) {
+            label = "\(indexPath.row + 1)     attacked"
+            cell.viewStar.isEnabled = false
+        } else {
+            label = "\(indexPath.row + 1)"
+            cell.viewStar.isEnabled = true
+        }
+        cell.labelIndex.text = label
         return cell
         
     }
@@ -101,6 +155,11 @@ class JoinBattleViewController: UIViewController, UIPickerViewDelegate, UIPicker
     // MARK: Actions
     
     @IBAction func alreadyAttacked(_ sender: Any) {
+        if (self.switchAttacked.isOn) {
+            self.present(alert!, animated: true, completion: nil)
+        } else {
+            self.attackedEnemyPosition = 0
+        }
     }
 
     @IBAction func joinBattle(_ sender: Any) {

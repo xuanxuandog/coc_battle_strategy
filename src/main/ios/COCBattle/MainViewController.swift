@@ -26,8 +26,10 @@ class MainViewController: UIViewController {
     // MARK: - Actions
     
     @IBAction func joinBattle(_ sender: Any) {
-        let alert = Utils.showAlert(title: "Battle ID:", parentView: self)
+        let alert = Utils.showInput(title: "Battle ID:", parentView: self)
         alert?.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {(UIAlertAction)in
+            
+            let waiting = Utils.showWaiting(title: "Loading battle", parentView: self)
             
             self.battle = Battle()
             let textField = (alert?.textFields?.first)! as UITextField
@@ -48,11 +50,15 @@ class MainViewController: UIViewController {
             }
             
             if (!result) {
+                waiting.dismiss(animated: true, completion: {
+                    Utils.showAlert(title: "Error", message: "Join battle failed, please try later", parentView: self, completion : nil)
+                })
                 
-                Utils.showAlert(title: "Error", message: "Join battle failed, please try later", parentView: self, completion : nil)
             } else {
-            
-                self.performSegue(withIdentifier: "JoinBattle", sender: self)
+                waiting.dismiss(animated: true, completion: {
+                    self.performSegue(withIdentifier: "JoinBattle", sender: self)
+                })
+               
             }
             
             
