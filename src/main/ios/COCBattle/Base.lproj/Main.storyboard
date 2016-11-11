@@ -99,6 +99,7 @@
                         <outlet property="pickerAttackerPosition" destination="hIE-Pw-Rfr" id="cuN-NO-x78"/>
                         <outlet property="switchAttacked" destination="gEH-h9-9Ty" id="kMc-Lh-OBD"/>
                         <outlet property="tableAttacked" destination="YTl-Lu-igN" id="soC-sb-pKX"/>
+                        <segue destination="3Jc-ea-7wz" kind="show" identifier="joinToView" id="XSr-3u-aeQ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7r6-zw-RNs" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -218,7 +219,7 @@
                                         <rect key="frame" x="0.0" y="28" width="333" height="67"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="v2m-mx-1C5" id="oPA-hw-i2d">
-                                            <rect key="frame" x="0.0" y="0.0" width="333" height="66.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="333" height="67"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VJ7-Yv-7oV" customClass="Star" customModule="COCBattle" customModuleProvider="target">
@@ -254,8 +255,7 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Save" id="wIc-9Q-2qE">
                             <connections>
-                                <action selector="save:" destination="OrV-JW-JZC" id="CG3-Ro-cfx"/>
-                                <segue destination="3Jc-ea-7wz" kind="show" identifier="CreateBattle" id="WTw-xl-oiT"/>
+                                <action selector="create:" destination="OrV-JW-JZC" id="Foc-Gh-v35"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -265,11 +265,12 @@
                         <outlet property="playerNumberPickerView" destination="F9Q-82-01D" id="tDc-wR-saa"/>
                         <outlet property="setInitialCompletedStarsSwitch" destination="0ec-25-wmH" id="NvF-oX-qVs"/>
                         <outlet property="tableDefenders" destination="1tm-Hw-cdT" id="aDu-KQ-9fi"/>
+                        <segue destination="3Jc-ea-7wz" kind="show" identifier="createToView" id="OXP-tG-kfa"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="V9W-sQ-Zj7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2634" y="565"/>
+            <point key="canvasLocation" x="2582" y="708"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="cke-xK-dqx">
@@ -352,6 +353,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
+        <segue reference="OXP-tG-kfa"/>
         <segue reference="a6Q-Uh-UMY"/>
     </inferredMetricsTieBreakers>
 </document>

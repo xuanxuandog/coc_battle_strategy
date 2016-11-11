@@ -16,7 +16,7 @@ class Attacker : ValueChanged{
     
     var id : String?
     
-    var starConfidence : [Int?] = []
+    var starConfidence : [Int] = []
     
     var leftAttackChance = TOTAL_ATTACK_CHANCE
     

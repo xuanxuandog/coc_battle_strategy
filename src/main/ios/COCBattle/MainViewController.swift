@@ -11,7 +11,7 @@ import UIKit
 class MainViewController: UIViewController {
 
     // MARK: Properties
-    var battle : Battle?
+    var battle : Battle!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,38 +29,16 @@ class MainViewController: UIViewController {
         let alert = Utils.showInput(title: "Battle ID:", parentView: self)
         alert?.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {(UIAlertAction)in
             
-            let waiting = Utils.showWaiting(title: "Loading battle", parentView: self)
-            
             self.battle = Battle()
             let textField = (alert?.textFields?.first)! as UITextField
             self.battle?.id = textField.text!
             self.battle?.load()
             
+            Utils.waitForAsyncTask(parentView: self, task: self.battle, waitingMessage: "Loading battle", errorMessage: "Load battle failed, please try again later", successCompletionHandler: {()->Void in
             
-            var result = false
-            while (true) {
-                let state = self.battle?.getState()
-                if (state == AsyncTaskState.DONE) {
-                    result = true
-                    break
-                } else if (state == AsyncTaskState.ERROR) {
-                    break
-                }
-                RunLoop.current.run(mode: RunLoopMode.defaultRunLoopMode, before: NSDate(timeIntervalSinceNow: 1) as Date)
-            }
+                  self.performSegue(withIdentifier: "JoinBattle", sender: self)
             
-            if (!result) {
-                waiting.dismiss(animated: true, completion: {
-                    Utils.showAlert(title: "Error", message: "Join battle failed, please try later", parentView: self, completion : nil)
-                })
-                
-            } else {
-                waiting.dismiss(animated: true, completion: {
-                    self.performSegue(withIdentifier: "JoinBattle", sender: self)
-                })
-               
-            }
-            
+            }, errorCompletionHandler: nil)
             
             
         }))
@@ -77,9 +55,6 @@ class MainViewController: UIViewController {
             let joinBattleViewController = segue.destination as! JoinBattleViewController
             joinBattleViewController.battle = self.battle
         }
-    }
-    
-   
-    
+    }    
 }
 

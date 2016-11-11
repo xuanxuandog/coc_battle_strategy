@@ -21,7 +21,7 @@ class CreateBattleViewController: UIViewController, UIPickerViewDelegate, UIPick
     //maintain a array to cache all cells
     var defenders = [Defender?]()
     
-    var battle : Battle?
+    var battle : Battle!
     
     
     // MARK: Outlets
@@ -127,6 +127,20 @@ class CreateBattleViewController: UIViewController, UIPickerViewDelegate, UIPick
         tableDefenders.reloadData()
     }
     
+    @IBAction func create(_ sender: Any) {
+        
+        battle = Battle()
+        battle.defenders = [Defender?]()
+        for i in 0...self.playerNumberPickerView.selectedRow(inComponent: 0) + MIN_PLAYERS {
+            battle.defenders.append(self.defenders[i])
+        }
+        battle.create()
+        
+        Utils.waitForAsyncTask(parentView: self, task: self.battle, waitingMessage: "Creating Battle", errorMessage: "Create battle failed, please try again later.", successCompletionHandler: {()->Void in
+            self.performSegue(withIdentifier: "createToView", sender: self)
+        }, errorCompletionHandler: nil)
+    }
+    
     
     // MARK: - Navigation
 
@@ -135,53 +149,10 @@ class CreateBattleViewController: UIViewController, UIPickerViewDelegate, UIPick
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         
-        if segue.identifier == "CreateBattle" {
+        if segue.identifier == "createToView" {
             let viewBattle = segue.destination as! ViewBattleViewController
             viewBattle.battle = self.battle
         }
     }
-    
-    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
-        
-        if identifier == "CreateBattle" {
-            
-            let waiting = Utils.showWaiting(title: "Creating battle", parentView: self)
-            
-            var result = false
-            //Utils.navigationItemAcitivityIndicatorStart(self.navigationItem, leftOrRight: "right")
-            battle = Battle()
-            battle?.defenders = [Defender?]()
-            for i in 0...self.playerNumberPickerView.selectedRow(inComponent: 0) + MIN_PLAYERS {
-                battle?.defenders.append(self.defenders[i])
-            }
-            battle?.create()
-            
-            while (true) {
-                let state = battle?.getState()
-                if (state == AsyncTaskState.DONE) {
-                    result = true
-                    break
-                } else if (state == AsyncTaskState.ERROR) {
-                    break
-                }
-                RunLoop.current.run(mode: RunLoopMode.defaultRunLoopMode, before: NSDate(timeIntervalSinceNow: 1) as Date)
-            }
-            
-            if (!result) {
-                waiting.dismiss(animated: true, completion: {
-                    Utils.showAlert(title: "Error", message: "Create battle failed, please try later.", parentView: self, completion : nil)
-                })
-                
-            }
-                
-            //self.navigationItem.rightBarButtonItem = self.btnSave
-            //Utils.navigationItemActivityIndicatorStop()
-            waiting.dismiss(animated: true, completion: nil)
-            return result
-        } else {
-            return true
-        }
-    }
-    
 
 }

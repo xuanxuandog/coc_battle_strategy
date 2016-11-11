@@ -10,8 +10,8 @@ import Foundation
 
 class Battle : AsyncTask {
     
-    static let BASEURL = "http://1599q744m9.51mypc.cn/room"
-    //static let BASEURL = "http://localhost:8080/room"
+    //static let BASEURL = "http://1599q744m9.51mypc.cn/room"
+    static let BASEURL = "http://localhost:8080/room"
     
     // MARK: Properties
     var id : String = ""
@@ -62,6 +62,26 @@ class Battle : AsyncTask {
         }
         task.resume()
         
+        
+    }
+    
+    public func join(attacker : Attacker) {
+        //call RESTAPI to let the given attacker join the battle
+        
+        self.state = AsyncTaskState.RUNNING
+        
+        var url = Battle.BASEURL
+        url += "/join/\(self.id)/\(attacker.id!)"
+        
+        let json = MyJSON()
+        json.set(key: "starConfidence", value: attacker.starConfidence)
+        
+        Utils.sendHttpRequest(url: url, method: "POST", body: json.toString(), completion: {(data: Data?, response : URLResponse?, error : Error?) -> Void in
+            
+            let responseString = String(data: data!, encoding : .utf8)
+            Utils.log(responseString!, level: LOG_LEVEL.DEBUG)
+            self.state = AsyncTaskState.DONE
+        })
         
     }
     

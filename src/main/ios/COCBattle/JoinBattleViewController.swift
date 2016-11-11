@@ -127,8 +127,6 @@ class JoinBattleViewController: UIViewController, UIPickerViewDelegate, UIPicker
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        print ("index:\(indexPath.row)")
-        
         let cellIdentifier = "StarTableViewCell"
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! StarTableViewCell
         
@@ -137,7 +135,7 @@ class JoinBattleViewController: UIViewController, UIPickerViewDelegate, UIPicker
         cell.viewStar.rowInTable = indexPath.row
         
         //init cell's value
-        cell.viewStar.selectedStars = self.attacker.starConfidence[indexPath.row]!
+        cell.viewStar.selectedStars = self.attacker.starConfidence[indexPath.row]
         
         let label : String!
         if (self.attackedEnemyPosition == indexPath.row + 1) {
@@ -163,6 +161,14 @@ class JoinBattleViewController: UIViewController, UIPickerViewDelegate, UIPicker
     }
 
     @IBAction func joinBattle(_ sender: Any) {
+        self.attacker.id = String(self.pickerAttackerPosition.selectedRow(inComponent: 0) + 1)
+        self.battle.join(attacker: self.attacker)
+        Utils.waitForAsyncTask(parentView: self, task: self.battle, waitingMessage: "Joining Battle", errorMessage: "Failed to join the battle, please try again later", successCompletionHandler: {()->Void in
+            
+            self.performSegue(withIdentifier: "joinToView", sender: self)
+
+        }, errorCompletionHandler: nil)
+        
     }
     
     // MARK: ValueChanged protocol function
@@ -175,7 +181,7 @@ class JoinBattleViewController: UIViewController, UIPickerViewDelegate, UIPicker
     func updateJoinButtonStatus() {
         var hasStar = false
         for star in self.attacker.starConfidence {
-            if (star! > 0) {
+            if (star > 0) {
                 hasStar = true
                 break
             }
@@ -187,15 +193,19 @@ class JoinBattleViewController: UIViewController, UIPickerViewDelegate, UIPicker
         }
     }
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        if segue.identifier == "joinToView" {
+            let viewBattle = segue.destination as! ViewBattleViewController
+            viewBattle.battle = self.battle
+        }
     }
-    */
+    
     
 
 }
