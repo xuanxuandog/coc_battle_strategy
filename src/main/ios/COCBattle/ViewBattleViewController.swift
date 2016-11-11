@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewBattleViewController: UIViewController {
+class ViewBattleViewController: UITabBarController {
 
     // MARK: Properties
     

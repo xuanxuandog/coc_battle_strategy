@@ -131,7 +131,7 @@ class CreateBattleViewController: UIViewController, UIPickerViewDelegate, UIPick
         
         battle = Battle()
         battle.defenders = [Defender?]()
-        for i in 0...self.playerNumberPickerView.selectedRow(inComponent: 0) + MIN_PLAYERS {
+        for i in 0...self.playerNumberPickerView.selectedRow(inComponent: 0) + MIN_PLAYERS - 1 {
             battle.defenders.append(self.defenders[i])
         }
         battle.create()
