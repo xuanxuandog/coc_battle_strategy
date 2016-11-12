@@ -20,9 +20,6 @@ class JoinBattleViewController: UIViewController, UIPickerViewDelegate, UIPicker
     
     var attackedEnemyPosition = 0 {
         didSet {
-            if (attackedEnemyPosition > 0) {
-                self.attacker.starConfidence[attackedEnemyPosition - 1] = 0
-            }
             self.tableAttacked.reloadData()
         }
     }
@@ -140,10 +137,8 @@ class JoinBattleViewController: UIViewController, UIPickerViewDelegate, UIPicker
         let label : String!
         if (self.attackedEnemyPosition == indexPath.row + 1) {
             label = "\(indexPath.row + 1)     attacked"
-            cell.viewStar.isEnabled = false
         } else {
             label = "\(indexPath.row + 1)"
-            cell.viewStar.isEnabled = true
         }
         cell.labelIndex.text = label
         return cell
@@ -180,11 +175,15 @@ class JoinBattleViewController: UIViewController, UIPickerViewDelegate, UIPicker
     
     func updateJoinButtonStatus() {
         var hasStar = false
+        var index = 0
         for star in self.attacker.starConfidence {
-            if (star > 0) {
+            //the attacker can get star from some defender and this defender
+            //has not been attacked by this attacker before
+            if (star > 0 && (index + 1) != self.attackedEnemyPosition) {
                 hasStar = true
                 break
             }
+            index = index + 1
         }
         if (hasStar) {
             self.btnJoin.isEnabled = true

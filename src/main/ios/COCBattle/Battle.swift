@@ -24,10 +24,6 @@ class Battle : AsyncTask {
         
         self.state = AsyncTaskState.RUNNING
         
-        var request = URLRequest(url: URL(string: Battle.BASEURL)!)
-        request.httpMethod = "POST"
-        
-        
         var initialCompletedStars = [Int?]()
         
         for defender in defenders {
@@ -36,33 +32,14 @@ class Battle : AsyncTask {
         
         let json = MyJSON()
         json.set(key: "defenders", value: initialCompletedStars)
-        
         let postString = json.toString()
-        print ("requestString = \(postString)")
-        request.httpBody = postString.data(using: .utf8)
  
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            guard let data = data, error == nil else {                                                 // check for fundamental networking error
-                print("error=\(error)")
-                self.state = AsyncTaskState.ERROR
-                return
-            }
-            
-            if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200 {           // check for http errors
-                print("statusCode should be 200, but is \(httpStatus.statusCode)")
-                print("response = \(response)")
-                self.state = AsyncTaskState.ERROR
-                return
-            }
-            
-            let responseString = String(data: data, encoding: .utf8)
-            
+        Utils.sendHttpRequest(url: Battle.BASEURL, method: "POST", body: postString, successHandler: {(responseString : String)in
+            self.loadFromResponseString(responseString)
             self.state = AsyncTaskState.DONE
-            print("responseString = \(responseString)")
-        }
-        task.resume()
-        
-        
+        }, errorHandler : {(error : Error) in
+            self.state = AsyncTaskState.ERROR
+        })
     }
     
     public func join(attacker : Attacker) {
@@ -76,11 +53,11 @@ class Battle : AsyncTask {
         let json = MyJSON()
         json.set(key: "starConfidence", value: attacker.starConfidence)
         
-        Utils.sendHttpRequest(url: url, method: "POST", body: json.toString(), completion: {(data: Data?, response : URLResponse?, error : Error?) -> Void in
-            
-            let responseString = String(data: data!, encoding : .utf8)
-            Utils.log(responseString!, level: LOG_LEVEL.DEBUG)
+        Utils.sendHttpRequest(url: url, method: "POST", body: json.toString(), successHandler: {(responseString : String)in
+            self.loadFromResponseString(responseString)
             self.state = AsyncTaskState.DONE
+        }, errorHandler : {(error : Error) in
+            self.state = AsyncTaskState.ERROR
         })
         
     }
@@ -91,43 +68,45 @@ class Battle : AsyncTask {
         self.state = AsyncTaskState.RUNNING
         
         let url = "\(Battle.BASEURL)/\(self.id)"
-        print ("url=\(url)")
-        var request = URLRequest(url: URL(string:url)!)
-        request.httpMethod = "GET"
         
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            guard let data = data, error == nil else {                                                 // check for fundamental networking error
-                print("error=\(error)")
-                self.state = AsyncTaskState.ERROR
-                return
-            }
-            
-            if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200 {           // check for http errors
-                print("statusCode should be 200, but is \(httpStatus.statusCode)")
-                print("response = \(response)")
-                self.state = AsyncTaskState.ERROR
-                return
-            }
-            
-            let responseString = String(data: data, encoding: .utf8)
-            
+        Utils.sendHttpRequest(url: url, method: "GET", body: nil, successHandler: {(responseString: String) in
+            self.loadFromResponseString(responseString)
             self.state = AsyncTaskState.DONE
-            print("responseString = \(responseString)")
-            let responseData = responseString?.data(using: String.Encoding.utf8)
-            let responseJson = JSON(data: responseData!)
-            
-            self.defenders = [Defender?]()
-            var index = 0
-            for item in responseJson["initialStars"].arrayValue {
-                let defender = Defender(String(index))
-                defender.initialStarCount = item.intValue
-                self.defenders.append(defender)
-                index = index + 1
-            }
-        }
-        task.resume()
+        }, errorHandler: {(Error) in
+            self.state = AsyncTaskState.ERROR
+        })
     }
     
+    
+    private func loadFromResponseString(_ response : String) {
+        let responseData = response.data(using: String.Encoding.utf8)
+        let responseJson = JSON(data: responseData!)
+        
+        //set id
+        self.id = responseJson["id"].stringValue
+        
+        //init defenders with initial stars
+        self.defenders = [Defender?]()
+        var index = 0
+        for item in responseJson["initialStars"].arrayValue {
+            let defender = Defender(String(index))
+            defender.initialStarCount = item.intValue
+            self.defenders.append(defender)
+            index = index + 1
+        }
+        //set completed stars based on current battle map
+        index = 0
+        for item in responseJson["completedStars"].arrayValue {
+            self.defenders[index]?.completedStarCount = item.intValue
+            index = index + 1
+        }
+        
+        //init attackers
+        
+        
+        
+
+    }
     
     // MARK: AsyncTask functions
     

@@ -1,6 +1,7 @@
 package xxd.coc.battle.web.view;
 
 import java.util.Map;
+import java.util.Set;
 
 import xxd.coc.battle.core.model.Attacker;
 
@@ -21,5 +22,9 @@ public class AttackerView {
 	
 	public int getAttackChance() {
 		return this.attacker.getLeftAttackChance();
+	}
+	
+	public Set<String> getAttacked() {
+		return this.attacker.getAttackedDefenders();
 	}
 }

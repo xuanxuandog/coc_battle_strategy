@@ -19,7 +19,7 @@ public class Attacker implements Comparable {
 	private String id;
 	
 	//initial attack chance of this attacker
-	private int attackChance = 2;
+	private int attackChance = DEFAULT_ATTACT_CHANCE;
 	
 	//left attack chance of this attacker
 	private int leftAttackChance;
@@ -41,24 +41,32 @@ public class Attacker implements Comparable {
 	private Map<String, Integer> starConfidence = null;
 	
 	/*
-	 * key is the id of the defender that this attacker has attacked,
+	 * key is the id of the defender that this attacker has attacked during calculating best strategy
 	 * value is the number of stars that this attacker get from that defender
 	 */
 	private Map<String, Integer> attacked = null;
+	
+	/*
+	 * the ids of defenders that this attacker has already attacked before calculating best strategy
+	 */
+	private Set<String> attackedDefenders = null;
 	
 	public Map<String, Integer> getAttacked() {
 		return attacked;
 	}
 
-	public Attacker(String id, int attackChance, Map<String, Integer> starConfidence) {
-		
+	public Attacker(String id, Map<String, Integer> starConfidence, Set<String> attackedDefenders) {
 		if (id == null) {
 			throw new IllegalArgumentException("id can't be null");
 		}
 		
 		this.id = id;
 		
-		this.attackChance = attackChance;
+		this.attackedDefenders = attackedDefenders;
+		
+		if (this.attackedDefenders != null) {
+			this.attackChance = Attacker.DEFAULT_ATTACT_CHANCE - this.attackedDefenders.size();
+		} 
 		this.starConfidence = starConfidence;
 		this.attacked = new HashMap<String, Integer>();
 		this.leftAttackChance = this.attackChance;
@@ -77,7 +85,7 @@ public class Attacker implements Comparable {
 	}
 	
 	public Attacker(String id, Map<String, Integer> starConfidence) {
-		this(id, DEFAULT_ATTACT_CHANCE, starConfidence);
+		this(id, starConfidence, null);
 	}
 	
 	/**
@@ -106,7 +114,9 @@ public class Attacker implements Comparable {
 		 * 2. the given defender has not been attacked by this attacker already
 		 * 3. this attacker can get at least 1 star from the given defender
 		 */
-		return this.leftAttackChance > 0 && !this.attacked.containsKey(defender.getId())
+		return this.leftAttackChance > 0 
+				&& !this.attacked.containsKey(defender.getId())
+				&& (this.attackedDefenders == null || !this.attackedDefenders.contains(defender.getId()))
 				&& this.starConfidence.get(defender.getId()) > 0;
 	}
 	
@@ -209,5 +219,9 @@ public class Attacker implements Comparable {
 	@Override
 	public int compareTo(Object o) {
 		return this.totalStars - ((Attacker)o).totalStars;
+	}
+	
+	public Set<String> getAttackedDefenders() {
+		return this.attackedDefenders;
 	}
 }

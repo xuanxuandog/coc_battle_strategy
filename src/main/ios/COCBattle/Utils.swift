@@ -48,9 +48,9 @@ class Utils {
     }
     
     
-    static public func sendHttpRequest(url : String, method : String, body : String?, completion : @escaping (Data?, URLResponse?, Error?) -> Swift.Void) {
-        log("request url:\(method) \(url)", level: LOG_LEVEL.DEBUG)
-        log("request body:\(body)", level: LOG_LEVEL.DEBUG)
+    static public func sendHttpRequest(url : String, method : String, body : String?, successHandler : @escaping (_ response:String)->Void, errorHandler:@escaping (_ error: Error)->Void) {
+        log("request url:\(method) \(url)", LOG_LEVEL.DEBUG)
+        log("request body:\(body)", LOG_LEVEL.DEBUG)
         var request = URLRequest(url: URL(string: url)!)
         request.httpMethod = method
         
@@ -58,14 +58,35 @@ class Utils {
             request.httpBody = postString.data(using: .utf8)
         }
         
-        let task = URLSession.shared.dataTask(with: request, completionHandler: completion)
+        let task = URLSession.shared.dataTask(with: request, completionHandler: {(data: Data?, response : URLResponse?, error : Error?) in
+            guard let data = data, error == nil else {                                                 // check for fundamental networking error
+                Utils.log("error=\(error)", LOG_LEVEL.ERROR)
+                errorHandler(error!)
+                return
+            }
+            
+            if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200 {           // check for http errors
+                Utils.log("statusCode should be 200, but is \(httpStatus.statusCode)", LOG_LEVEL.ERROR)
+                Utils.log("response = \(response)", LOG_LEVEL.ERROR)
+                errorHandler(error!)
+                return
+            }
+            
+            let responseString = String(data: data, encoding: .utf8)
+            Utils.log("responseString = \(responseString)", LOG_LEVEL.DEBUG)
+            successHandler(responseString!)
+        })
         task.resume()
         
         
     }
     
-    static public func log(_ message: String, level : LOG_LEVEL) {
+    static public func log(_ message: String, _ level : LOG_LEVEL) {
         print(message)
+    }
+    
+    static public func log(_ message : String) {
+        log(message, LOG_LEVEL.INFO)
     }
     
     static public func waitForAsyncTask(parentView : UIViewController, task : AsyncTask, waitingMessage : String?, errorMessage : String?, successCompletionHandler : (() -> Void)?, errorCompletionHandler : ((UIAlertAction)->Void)? ){
@@ -87,12 +108,12 @@ class Utils {
         }
         
         if (!result) {
-            Utils.log("execute task error:", level: LOG_LEVEL.ERROR)
+            Utils.log("execute task error:", LOG_LEVEL.ERROR)
             waiting.dismiss(animated: true, completion: {
                 Utils.showAlert(title: "Error", message: errorMessage!, parentView: parentView, completion : errorCompletionHandler)
             })
         } else {
-            Utils.log("execute task success:", level: LOG_LEVEL.DEBUG)
+            Utils.log("execute task success:", LOG_LEVEL.DEBUG)
             waiting.dismiss(animated: true, completion: successCompletionHandler)
         }
         

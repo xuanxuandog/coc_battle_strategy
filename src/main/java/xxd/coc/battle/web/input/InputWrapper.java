@@ -1,6 +1,8 @@
 package xxd.coc.battle.web.input;
 
 import java.net.URLDecoder;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -34,8 +36,14 @@ public class InputWrapper{
 		    		}
 		    	}
 		    }
-		    if (json.has("attackChance")) {
-		    	this.attackChance = json.optInt("attackChance");
+		    if (json.has("attacked")) {
+		    	JSONArray array = json.optJSONArray("attacked"); 
+	    		if (array != null) {
+	    			this.attacked = new HashSet<String>();
+	    			for (int i = 0; i < array.length(); i++) {
+	    				this.attacked.add(array.optString(i));
+	    			}
+	    		}
 		    }
 		} catch (Exception e) {
 			
@@ -49,6 +57,8 @@ public class InputWrapper{
 	private int[] defenders = null;
 
 	private int[] starConfidence = null;
+	
+	private Set<String> attacked = null;
 	
 	public int getTarget() {
 		return target;
@@ -76,6 +86,10 @@ public class InputWrapper{
 	
 	public int getAttackChance() {
 		return this.attackChance;
+	}
+	
+	public Set<String> getAttackedDefenders() {
+		return this.attacked;
 	}
 	
 }

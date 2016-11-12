@@ -51,7 +51,7 @@ public class RoomController {
 	@RequestMapping(path="join/{roomId}/{attackerId}", method = RequestMethod.POST) 
 	public RoomView joinRoom(@PathVariable String roomId, @PathVariable String attackerId, @RequestBody String body) {
 		InputWrapper inputWrapper = new InputWrapper(body);
-		Attacker attacker = AttackerDefenderFactory.getInstance().getAttacker(attackerId, inputWrapper.getStarConfidence(), inputWrapper.getAttackChance());
+		Attacker attacker = AttackerDefenderFactory.getInstance().getAttacker(attackerId, inputWrapper.getStarConfidence(), inputWrapper.getAttackedDefenders());
 		return new RoomView(RoomManagerFactory.getRoomManager().join(roomId, attacker));
 	}
 	

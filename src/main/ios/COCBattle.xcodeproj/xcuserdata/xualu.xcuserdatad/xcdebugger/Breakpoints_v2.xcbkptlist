@@ -121,12 +121,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "COCBattle/Utils.swift"
-            timestampString = "500527772.453696"
+            timestampString = "500646136.966091"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "61"
-            endingLineNumber = "61"
-            landmarkName = "sendHttpRequest(url:method:body:completion:)"
+            startingLineNumber = "63"
+            endingLineNumber = "63"
+            landmarkName = "sendHttpRequest(url:method:body:successHandler:errorHandler:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -137,11 +137,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "COCBattle/Utils.swift"
-            timestampString = "500538474.070835"
+            timestampString = "500646136.966091"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "92"
-            endingLineNumber = "92"
+            startingLineNumber = "113"
+            endingLineNumber = "113"
             landmarkName = "waitForAsyncTask(parentView:task:waitingMessage:errorMessage:successCompletionHandler:errorCompletionHandler:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -159,6 +159,38 @@
             startingLineNumber = "138"
             endingLineNumber = "138"
             landmarkName = "tableView(_:cellForRowAt:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "COCBattle/Battle.swift"
+            timestampString = "500646136.966091"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "73"
+            endingLineNumber = "73"
+            landmarkName = "load()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "COCBattle/Battle.swift"
+            timestampString = "500646364.576201"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "88"
+            endingLineNumber = "88"
+            landmarkName = "loadFromResponseString(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

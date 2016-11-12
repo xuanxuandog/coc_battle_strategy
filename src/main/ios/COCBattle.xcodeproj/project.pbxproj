@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		513976EC1DD7398B00BBE576 /* ViewBattleSummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 513976EB1DD7398B00BBE576 /* ViewBattleSummaryViewController.swift */; };
 		51C07A1A1DCCC19700B70DC8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51C07A191DCCC19700B70DC8 /* AppDelegate.swift */; };
 		51C07A1C1DCCC19700B70DC8 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51C07A1B1DCCC19700B70DC8 /* MainViewController.swift */; };
 		51C07A1F1DCCC19700B70DC8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 51C07A1D1DCCC19700B70DC8 /* Main.storyboard */; };
@@ -39,6 +40,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		513976EB1DD7398B00BBE576 /* ViewBattleSummaryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewBattleSummaryViewController.swift; sourceTree = "<group>"; };
 		51C07A161DCCC19700B70DC8 /* COCBattle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = COCBattle.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		51C07A191DCCC19700B70DC8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		51C07A1B1DCCC19700B70DC8 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
@@ -145,6 +147,7 @@
 				51C07A391DCDF30E00B70DC8 /* CreateBattleViewController.swift */,
 				51C07A491DCF714E00B70DC8 /* ViewBattleViewController.swift */,
 				51C07A5D1DD0C43600B70DC8 /* JoinBattleViewController.swift */,
+				513976EB1DD7398B00BBE576 /* ViewBattleSummaryViewController.swift */,
 			);
 			name = controller;
 			sourceTree = "<group>";
@@ -267,6 +270,7 @@
 				51C07A541DD041F400B70DC8 /* AsyncTask.swift in Sources */,
 				51C07A3A1DCDF30E00B70DC8 /* CreateBattleViewController.swift in Sources */,
 				51C07A5E1DD0C43600B70DC8 /* JoinBattleViewController.swift in Sources */,
+				513976EC1DD7398B00BBE576 /* ViewBattleSummaryViewController.swift in Sources */,
 				51C07A521DD020E700B70DC8 /* MyJSON.swift in Sources */,
 				51C07A1C1DCCC19700B70DC8 /* MainViewController.swift in Sources */,
 				51C07A461DCF639700B70DC8 /* ValueChanged.swift in Sources */,

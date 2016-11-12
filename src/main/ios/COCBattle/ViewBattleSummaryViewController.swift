@@ -1,23 +1,19 @@
 //
-//  ViewBattleViewController.swift
+//  ViewBattleSummaryViewController.swift
 //  COCBattle
 //
-//  Created by xualu on 11/6/16.
+//  Created by xualu on 11/12/16.
 //  Copyright © 2016 xualu. All rights reserved.
 //
 
 import UIKit
 
-class ViewBattleViewController: UITabBarController {
+class ViewBattleSummaryViewController: UIViewController {
 
-    // MARK: Properties
-    
-    var battle : Battle?
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        print (battle?.id)
-        // Do any additional setup after loading the view.q
+
+        // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {
@@ -25,7 +21,7 @@ class ViewBattleViewController: UITabBarController {
         // Dispose of any resources that can be recreated.
     }
     
-    
+
     /*
     // MARK: - Navigation
 
