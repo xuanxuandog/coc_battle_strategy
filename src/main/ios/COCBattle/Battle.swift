@@ -52,6 +52,9 @@ class Battle : AsyncTask {
         
         let json = MyJSON()
         json.set(key: "starConfidence", value: attacker.starConfidence)
+        if let attacked = attacker.attacked {
+            json.set(key: "attacked", value: attacked)
+        }
         
         Utils.sendHttpRequest(url: url, method: "POST", body: json.toString(), successHandler: {(responseString : String)in
             self.loadFromResponseString(responseString)

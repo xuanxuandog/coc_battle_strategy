@@ -18,6 +18,8 @@ class Attacker : ValueChanged{
     
     var starConfidence : [Int] = []
     
+    var attacked : [Int]?
+    
     var leftAttackChance = TOTAL_ATTACK_CHANCE
     
     var observer : ValueChanged?

@@ -21,6 +21,7 @@ class JoinBattleViewController: UIViewController, UIPickerViewDelegate, UIPicker
     var attackedEnemyPosition = 0 {
         didSet {
             self.tableAttacked.reloadData()
+            updateJoinButtonStatus()
         }
     }
     
@@ -77,7 +78,9 @@ class JoinBattleViewController: UIViewController, UIPickerViewDelegate, UIPicker
         
         alert.view.addSubview(picker)
         alert.isModalInPopover = true
-        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {(UIAlertAction) in
+            self.attackedEnemyPosition = picker.selectedRow(inComponent: 0) + 1
+        }))
         
     }
 
@@ -107,8 +110,6 @@ class JoinBattleViewController: UIViewController, UIPickerViewDelegate, UIPicker
     public func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if (pickerView.tag == self.PICKER_ATTACKER_POSITION) {
             self.attacker.id = String(row + 1)
-        } else if (pickerView.tag == self.PICKER_ATTACKED_ENEMY_POSITION) {
-            self.attackedEnemyPosition = row + 1
         }
     }
     
@@ -157,6 +158,9 @@ class JoinBattleViewController: UIViewController, UIPickerViewDelegate, UIPicker
 
     @IBAction func joinBattle(_ sender: Any) {
         self.attacker.id = String(self.pickerAttackerPosition.selectedRow(inComponent: 0) + 1)
+        if (self.attackedEnemyPosition > 0) {
+            self.attacker.attacked = [self.attackedEnemyPosition]
+        }
         self.battle.join(attacker: self.attacker)
         Utils.waitForAsyncTask(parentView: self, task: self.battle, waitingMessage: "Joining Battle", errorMessage: "Failed to join the battle, please try again later", successCompletionHandler: {()->Void in
             
