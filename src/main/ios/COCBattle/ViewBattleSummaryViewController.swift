@@ -10,9 +10,17 @@ import UIKit
 
 class ViewBattleSummaryViewController: UIViewController {
 
+    // MARK: Properties
+    var battle : Battle?
+
+    
+    // MARK: Outlets
+
+    @IBOutlet weak var tableAttackers: UITableView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Do any additional setup after loading the view.
     }
 

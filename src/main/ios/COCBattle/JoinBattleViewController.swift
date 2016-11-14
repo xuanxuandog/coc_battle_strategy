@@ -39,7 +39,7 @@ class JoinBattleViewController: UIViewController, UIPickerViewDelegate, UIPicker
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        for _ in 0...battle.defenders.count {
+        for _ in 0...battle.defenders.count - 1 {
             self.attacker.starConfidence.append(0)
         }
         

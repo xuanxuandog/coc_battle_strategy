@@ -48,7 +48,7 @@ class Utils {
     }
     
     
-    static public func sendHttpRequest(url : String, method : String, body : String?, successHandler : @escaping (_ response:String)->Void, errorHandler:@escaping (_ error: Error)->Void) {
+    static public func sendHttpRequest(url : String, method : String, body : String?, successHandler : @escaping (_ response:String)->Void, errorHandler:@escaping (_ error: Error?)->Void) {
         log("request url:\(method) \(url)", LOG_LEVEL.DEBUG)
         log("request body:\(body)", LOG_LEVEL.DEBUG)
         var request = URLRequest(url: URL(string: url)!)
@@ -61,14 +61,14 @@ class Utils {
         let task = URLSession.shared.dataTask(with: request, completionHandler: {(data: Data?, response : URLResponse?, error : Error?) in
             guard let data = data, error == nil else {                                                 // check for fundamental networking error
                 Utils.log("error=\(error)", LOG_LEVEL.ERROR)
-                errorHandler(error!)
+                errorHandler(error)
                 return
             }
             
             if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200 {           // check for http errors
                 Utils.log("statusCode should be 200, but is \(httpStatus.statusCode)", LOG_LEVEL.ERROR)
                 Utils.log("response = \(response)", LOG_LEVEL.ERROR)
-                errorHandler(error!)
+                errorHandler(error)
                 return
             }
             

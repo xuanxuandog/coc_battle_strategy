@@ -20,6 +20,8 @@ class Battle : AsyncTask {
     
     var attackers = [Attacker?]()
     
+    var title = ""
+    
     public func create() {
         
         //call RESTAPI to create a battle
@@ -39,7 +41,7 @@ class Battle : AsyncTask {
         Utils.sendHttpRequest(url: Battle.BASEURL, method: "POST", body: postString, successHandler: {(responseString : String)in
             self.loadFromResponseString(responseString)
             self.state = AsyncTaskState.DONE
-        }, errorHandler : {(error : Error) in
+        }, errorHandler : {(error : Error?) in
             self.state = AsyncTaskState.ERROR
         })
     }
@@ -61,7 +63,7 @@ class Battle : AsyncTask {
         Utils.sendHttpRequest(url: url, method: "POST", body: json.toString(), successHandler: {(responseString : String)in
             self.loadFromResponseString(responseString)
             self.state = AsyncTaskState.DONE
-        }, errorHandler : {(error : Error) in
+        }, errorHandler : {(error : Error?) in
             self.state = AsyncTaskState.ERROR
         })
         
@@ -89,6 +91,7 @@ class Battle : AsyncTask {
         
         //set id
         self.id = responseJson["id"].stringValue
+        self.title = "Battle ID: \(self.id) (\(self.defenders.count) vs \(self.defenders.count))"
         
         //init defenders with initial stars
         self.defenders = [Defender?]()
@@ -109,9 +112,22 @@ class Battle : AsyncTask {
         //init attackers
         for item in responseJson["attackers"].arrayValue {
             let attacker = Attacker()
+            //id
             attacker.id = item["id"].stringValue
             self.attackers.append(attacker)
+            //already attacked enemies before this battle
+            for attackedId in item["attacked"].arrayValue {
+                attacker.attacked?.append(attackedId.intValue)
+                //initialize star confidence
+                attacker.starConfidence.append(0)
+            }
+            //star confidence
+            for starConfidence in item["starConfidence"].dictionaryObject! {
+                print("\(starConfidence.key) -> \(starConfidence.value)")
+                //attacker.starConfidence[Int(starConfidence.key)! - 1] = starConfidence.value as! Int
+            }
         }
+        
     }
     
     // MARK: AsyncTask functions

@@ -20,8 +20,6 @@ class Attacker : ValueChanged{
     
     var attacked : [Int]?
     
-    var leftAttackChance = TOTAL_ATTACK_CHANCE
-    
     var observer : ValueChanged?
     
     func changed(_ caller: Any?) {

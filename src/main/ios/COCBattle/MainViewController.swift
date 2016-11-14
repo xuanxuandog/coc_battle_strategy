@@ -46,6 +46,11 @@ class MainViewController: UIViewController {
         
     }
     
+    
+    @IBAction func createBattle(_ sender: Any) {
+        self.performSegue(withIdentifier: "mainToCreate", sender: self)
+    }
+    
     // MARK: - Navigation
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -54,7 +59,7 @@ class MainViewController: UIViewController {
         if segue.identifier == "JoinBattle" {
             let joinBattleViewController = segue.destination as! JoinBattleViewController
             joinBattleViewController.battle = self.battle
-        }
+        } 
     }    
 }
 

@@ -16,7 +16,9 @@ class ViewBattleViewController: UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print (battle?.id)
+        self.title = (self.battle?.title)!
+        (self.viewControllers?[0] as! ViewBattleSummaryViewController).battle = self.battle
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Home", style: UIBarButtonItemStyle.plain, target: self, action: #selector(ViewBattleViewController.backToHome(_:)))
         // Do any additional setup after loading the view.q
     }
 
@@ -26,14 +28,26 @@ class ViewBattleViewController: UITabBarController {
     }
     
     
-    /*
     // MARK: - Navigation
-
+/*
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
     }
-    */
+  */
+    // MARK: - Actions
+    
+    public func backToHome(_ sender: Any?) {
+        self.navigationController?.popToRootViewController(animated: false)
+        
+        /*
+        for vc in (self.navigationController?.viewControllers)! {
+            if ((vc as? MainViewController) != nil) {
+                self.navigationController?.popToViewController(vc, animated: true)
+            }
+        }*/
+    }
+ 
 
 }
