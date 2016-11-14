@@ -18,6 +18,8 @@ class Battle : AsyncTask {
     
     var defenders = [Defender?]()
     
+    var attackers = [Attacker?]()
+    
     public func create() {
         
         //call RESTAPI to create a battle
@@ -105,10 +107,11 @@ class Battle : AsyncTask {
         }
         
         //init attackers
-        
-        
-        
-
+        for item in responseJson["attackers"].arrayValue {
+            let attacker = Attacker()
+            attacker.id = item["id"].stringValue
+            self.attackers.append(attacker)
+        }
     }
     
     // MARK: AsyncTask functions
