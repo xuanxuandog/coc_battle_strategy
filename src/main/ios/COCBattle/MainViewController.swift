@@ -26,7 +26,20 @@ class MainViewController: UIViewController {
     // MARK: - Actions
     
     @IBAction func joinBattle(_ sender: Any) {
+        
+        loadingBattle("JoinBattle")
+        
+    }
+    
+    
+    @IBAction func viewBattle(_ sender: Any) {
+        print ("click")
+        loadingBattle("MainToView")
+    }
+    
+    private func loadingBattle(_ goto : String) {
         let alert = Utils.showInput(title: "Battle ID:", parentView: self)
+        print ("alert created")
         alert?.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {(UIAlertAction)in
             
             self.battle = Battle()
@@ -35,15 +48,12 @@ class MainViewController: UIViewController {
             self.battle?.load()
             
             Utils.waitForAsyncTask(parentView: self, task: self.battle, waitingMessage: "Loading battle", errorMessage: "Load battle failed, please try again later", successCompletionHandler: {()->Void in
-            
-                  self.performSegue(withIdentifier: "JoinBattle", sender: self)
-            
+                
+                self.performSegue(withIdentifier: goto, sender: self)
+                
             }, errorCompletionHandler: nil)
-            
-            
         }))
-        
-        
+
     }
     
     
@@ -59,7 +69,10 @@ class MainViewController: UIViewController {
         if segue.identifier == "JoinBattle" {
             let joinBattleViewController = segue.destination as! JoinBattleViewController
             joinBattleViewController.battle = self.battle
-        } 
+        } else if segue.identifier == "MainToView" {
+            let viewBattleViewController = segue.destination as! ViewBattleViewController
+            viewBattleViewController.battle = self.battle
+        }
     }    
 }
 

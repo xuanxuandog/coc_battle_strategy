@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewBattleSummaryViewController: UIViewController {
+class ViewBattleSummaryViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     // MARK: Properties
     var battle : Battle?
@@ -21,6 +21,9 @@ class ViewBattleSummaryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.tableAttackers.delegate = self
+        self.tableAttackers.dataSource = self
+        
         // Do any additional setup after loading the view.
     }
 
@@ -29,6 +32,40 @@ class ViewBattleSummaryViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    // MARK: - table datasource functions
+    public func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        var count = 0
+        for attacker in (self.battle?.attackers)! {
+            if let id = attacker?.id {
+                count = count + 1
+            }
+        }
+        return count
+    }
+    
+    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        
+        let cellIdentifier = "attackerStarConfidenceTableCell"
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! AttackerStarConfidenceTableViewCell
+        
+        // Configure the cell...
+        var index = 0
+        for attacker in (self.battle?.attackers)! {
+            if let id = attacker?.id {
+                if (index == indexPath.row) {
+                    cell.labelAttackerId.text = id
+                    return cell
+                }
+                index = index + 1
+            }
+        }
+        return cell
+    }
 
     /*
     // MARK: - Navigation

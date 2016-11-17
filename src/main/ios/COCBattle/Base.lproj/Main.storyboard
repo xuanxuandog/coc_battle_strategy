@@ -153,7 +153,7 @@
                                         <rect key="frame" x="50" y="170" width="100" height="30"/>
                                         <state key="normal" title="View Battle"/>
                                         <connections>
-                                            <action selector="test:" destination="BYZ-38-t0r" eventType="touchUpInside" id="eFH-aD-fUa"/>
+                                            <action selector="viewBattle:" destination="BYZ-38-t0r" eventType="touchUpInside" id="wsu-eF-maK"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -175,6 +175,7 @@
                     <connections>
                         <segue destination="HZD-w0-AoY" kind="show" identifier="JoinBattle" id="a6Q-Uh-UMY"/>
                         <segue destination="OrV-JW-JZC" kind="show" identifier="mainToCreate" id="CLW-LS-d3x"/>
+                        <segue destination="e9v-rw-VcC" kind="show" identifier="MainToView" id="hxg-9M-Z3r"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -227,7 +228,7 @@
                                         <rect key="frame" x="0.0" y="28" width="333" height="67"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="v2m-mx-1C5" id="oPA-hw-i2d">
-                                            <rect key="frame" x="0.0" y="0.0" width="333" height="66.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="333" height="67"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VJ7-Yv-7oV" customClass="Star" customModule="COCBattle" customModuleProvider="target">
@@ -332,7 +333,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="104" id="JEl-sQ-52d">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="attackerStarConfidenceTableCell" rowHeight="104" id="JEl-sQ-52d" customClass="AttackerStarConfidenceTableViewCell" customModule="COCBattle" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="343" height="104"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="JEl-sQ-52d" id="QSm-Mp-G96">
@@ -367,17 +368,17 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Dit-fu-pE4">
+                                                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Dit-fu-pE4" customClass="Star" customModule="COCBattle" customModuleProvider="target">
                                                     <rect key="frame" x="70" y="8" width="125" height="27"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </view>
-                                                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="AXY-DO-wr8">
+                                                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="AXY-DO-wr8" customClass="Star" customModule="COCBattle" customModuleProvider="target">
                                                     <rect key="frame" x="70" y="38" width="125" height="27"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </view>
-                                                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5Rt-Oh-GEU">
+                                                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5Rt-Oh-GEU" customClass="Star" customModule="COCBattle" customModuleProvider="target">
                                                     <rect key="frame" x="70" y="68" width="125" height="27"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -391,6 +392,16 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="labelAttacked" destination="MdS-SZ-lOQ" id="gel-q4-tvg"/>
+                                            <outlet property="labelAttackerId" destination="poe-mQ-8TH" id="V4Y-2y-vGw"/>
+                                            <outlet property="labelStar1" destination="ilM-Pz-xH0" id="Q8o-GI-V6y"/>
+                                            <outlet property="labelStar2" destination="blq-pB-dgS" id="v9r-xS-OSb"/>
+                                            <outlet property="labelStar3" destination="W1j-rh-Rcg" id="h5V-2i-oCB"/>
+                                            <outlet property="star1" destination="5Rt-Oh-GEU" id="uw9-eF-9td"/>
+                                            <outlet property="star2" destination="AXY-DO-wr8" id="Dzd-HM-QtF"/>
+                                            <outlet property="star3" destination="Dit-fu-pE4" id="IAp-Ck-trY"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
@@ -405,7 +416,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PsD-UH-LJW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3118" y="-628"/>
+            <point key="canvasLocation" x="3117.5999999999999" y="-628.33583208395805"/>
         </scene>
         <!--Item-->
         <scene sceneID="dml-hm-Klg">
@@ -494,6 +505,6 @@
     <inferredMetricsTieBreakers>
         <segue reference="a6Q-Uh-UMY"/>
         <segue reference="jS9-Tk-bDf"/>
-        <segue reference="84I-Jx-kRo"/>
+        <segue reference="hxg-9M-Z3r"/>
     </inferredMetricsTieBreakers>
 </document>

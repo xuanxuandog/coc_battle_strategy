@@ -110,21 +110,30 @@ class Battle : AsyncTask {
         }
         
         //init attackers
-        for item in responseJson["attackers"].arrayValue {
+        for _ in 0 ... self.defenders.count {
             let attacker = Attacker()
-            //id
-            attacker.id = item["id"].stringValue
             self.attackers.append(attacker)
-            //already attacked enemies before this battle
-            for attackedId in item["attacked"].arrayValue {
-                attacker.attacked?.append(attackedId.intValue)
+            for i in 0 ... self.defenders.count {
                 //initialize star confidence
                 attacker.starConfidence.append(0)
+            }
+        }
+        
+        index = 0
+        for item in responseJson["attackers"].arrayValue {
+            //id
+            let id = item["id"].stringValue
+            print ("id=\(id)")
+            let attacker = self.attackers[Int(id)! - 1]
+            attacker?.id = id
+            //already attacked enemies before this battle
+            for attackedId in item["attacked"].arrayValue {
+                attacker?.attacked?.append(attackedId.intValue)
             }
             //star confidence
             for starConfidence in item["starConfidence"].dictionaryObject! {
                 print("\(starConfidence.key) -> \(starConfidence.value)")
-                //attacker.starConfidence[Int(starConfidence.key)! - 1] = starConfidence.value as! Int
+                attacker?.starConfidence[Int(starConfidence.key)! - 1] = starConfidence.value as! Int
             }
         }
         
