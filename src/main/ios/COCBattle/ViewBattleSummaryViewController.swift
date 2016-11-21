@@ -58,7 +58,12 @@ class ViewBattleSummaryViewController: UIViewController, UITableViewDelegate, UI
         for attacker in (self.battle?.attackers)! {
             if let id = attacker?.id {
                 if (index == indexPath.row) {
-                    cell.labelAttackerId.text = id
+                    //find the cell to display
+                    cell.labelAttackerId.text = "Position: \(id)"
+                    for i in 0 ..< (attacker)!.starConfidence.count {
+                        cell.addGotStar(starCount: (attacker?.starConfidence[i])!, enemyPosition: i + 1)
+                    }
+                    
                     return cell
                 }
                 index = index + 1
