@@ -56,8 +56,8 @@ class Battle : AsyncTask {
         
         let json = MyJSON()
         json.set(key: "starConfidence", value: attacker.starConfidence)
-        if let attacked = attacker.attacked {
-            json.set(key: "attacked", value: attacked)
+        if attacker.attacked.count > 0 {
+            json.set(key: "attacked", value: attacker.attacked)
         }
         
         Utils.sendHttpRequest(url: url, method: "POST", body: json.toString(), successHandler: {(responseString : String)in
@@ -91,7 +91,7 @@ class Battle : AsyncTask {
         
         //set id
         self.id = responseJson["id"].stringValue
-        self.title = "Battle ID: \(self.id) (\(self.defenders.count) vs \(self.defenders.count))"
+        
         
         //init defenders with initial stars
         self.defenders = [Defender?]()
@@ -102,6 +102,8 @@ class Battle : AsyncTask {
             self.defenders.append(defender)
             index = index + 1
         }
+        self.title = "Battle ID: \(self.id) (\(self.defenders.count) vs \(self.defenders.count))"
+        
         //set completed stars based on current battle map
         index = 0
         for item in responseJson["completedStars"].arrayValue {
@@ -128,7 +130,7 @@ class Battle : AsyncTask {
             attacker?.id = id
             //already attacked enemies before this battle
             for attackedId in item["attacked"].arrayValue {
-                attacker?.attacked?.append(attackedId.intValue)
+                attacker?.attacked.append(attackedId.intValue)
             }
             //star confidence
             for starConfidence in item["starConfidence"].dictionaryObject! {

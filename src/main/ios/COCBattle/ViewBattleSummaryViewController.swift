@@ -59,9 +59,28 @@ class ViewBattleSummaryViewController: UIViewController, UITableViewDelegate, UI
             if let id = attacker?.id {
                 if (index == indexPath.row) {
                     //find the cell to display
+                    
+                    //attacker's position
                     cell.labelAttackerId.text = "Position: \(id)"
+                    
+                    //number of stars that this attacker can get from each enemy
                     for i in 0 ..< (attacker)!.starConfidence.count {
                         cell.addGotStar(starCount: (attacker?.starConfidence[i])!, enemyPosition: i + 1)
+                    }
+                    
+                    //display the positions of enemies that this attacker has already attacked
+                    let attacked = (attacker?.attacked)!
+                    if attacked.count > 0 {
+                        var text = ""
+                        for i in 0..<attacked.count {
+                            if (i > 0) {
+                                text = text + ","
+                            }
+                            text = text + String(attacked[i])
+                        }
+                        cell.labelAttacked.text = "Attacked: \(text)"
+                    } else {
+                        cell.labelAttacked.text = ""
                     }
                     
                     return cell

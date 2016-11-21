@@ -18,7 +18,7 @@ class Attacker : ValueChanged{
     
     var starConfidence : [Int] = []
     
-    var attacked : [Int]?
+    var attacked = [Int]()
     
     var observer : ValueChanged?
     
