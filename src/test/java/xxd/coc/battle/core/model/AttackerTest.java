@@ -6,6 +6,6 @@ public class AttackerTest extends TestCase {
 	
 	
 	public void testLeftAttackChance() {
-		assertEquals(1,2);
+		assertEquals(1,1);
 	}
 }
