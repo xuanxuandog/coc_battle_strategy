@@ -30,6 +30,7 @@ dependencies {
     compile 'org.codehaus.jackson:jackson-mapper-asl:1.9.13'
 	compile 'org.springframework:spring-web:4.3.3.RELEASE'
     compile("org.springframework.boot:spring-boot-starter-web")
+    testCompile 'junit:junit:4.12'
     providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
 }
 

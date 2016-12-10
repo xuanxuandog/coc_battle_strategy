@@ -11,4 +11,6 @@ cache:
 jdk:
   - oraclejdk7
 
+scripts:
+  ./gradlew test
 
