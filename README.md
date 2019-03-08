@@ -1,4 +1,4 @@
-# Summary
+# Summary 123
 This project is to build software which is used for COC(clash of clan) players to get best strategy(who attack who) for clan battle based on each user's confidence to get the nubmer of stars from the players of the counterpart clan(we call them defenders). The software includes two parts: 
 - the web service part which providing all RESTFUL APIs. 
 - the IOS app client part which can be run on iphone/ipad device
